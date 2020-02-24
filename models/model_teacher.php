@@ -4,6 +4,93 @@ require_once('config/database.php');
 
 class Model_Teacher extends Database
 {
+  public function get_recent_messenger_user($username)
+  {
+      $sql = "
+      SELECT username_send AS username, COUNT(username_send) AS count FROM messenger WHERE username_get = :username GROUP BY username_send HAVING COUNT(username_send) > 0 ORDER BY time DESC
+      ";
+      $param = [ ':username' => $username ];
+
+      $this->set_query($sql, $param);
+      return $this->load_rows();
+  }
+  public function get_info_messenger_user($username)
+  {
+      $sql = "
+      SELECT DISTINCT username, name, permission, avatar FROM students WHERE username = :username OR email = :username UNION SELECT DISTINCT username, name, permission, avatar FROM teachers WHERE username = :username OR email = :username UNION SELECT DISTINCT username, name, permission, avatar FROM admins WHERE username = :username OR email = :username
+      ";
+      $param = [ ':username' => $username ];
+
+      $this->set_query($sql, $param);
+      return $this->load_row();
+  }
+  public function get_user_messenger($username_send,$username_get)
+  {
+      $sql = "
+      SELECT DISTINCT id, content, time, username_get, username_send FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
+      ";
+      $param = [ ':username_send' => $username_send, ':username_get' => $username_get ];
+
+      $this->set_query($sql, $param);
+      return $this->load_rows();
+  }
+  public function get_new_messenger($username_send,$username_get,$count)
+  {
+      $sql = "
+      SELECT DISTINCT id, content, TIME, username_get, username_send FROM messenger WHERE username_send = '$username_send' AND username_get = '$username_get' ORDER BY TIME DESC LIMIT $count
+      ";
+      $this->set_query($sql);
+      return $this->load_rows();
+  }
+  public function send_messenger($username_get,$username_send,$content)
+  {
+      $sql = "
+      INSERT INTO messenger (id, username_send, username_get, content, time) VALUES (NULL, :username_send, :username_get, :content, current_timestamp());
+      ";
+
+      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content ];
+
+      $this->set_query($sql, $param);
+      return $this->execute_return_status();
+  }
+  public function update_messenger_seen($send_get)
+  {
+      $sql = "
+      INSERT INTO messenger_seen( send_get, count ) VALUES( :send_get, count +1 ) ON DUPLICATE KEY UPDATE count = count +1
+      ";
+
+      $param = [ ':send_get' => $send_get ];
+
+      $this->set_query($sql, $param);
+      return $this->execute_return_status();
+  }
+  public function clear_messenger_seen($send_get)
+  {
+      $sql = "
+      INSERT INTO messenger_seen( send_get, count ) VALUES( :send_get, 0 ) ON DUPLICATE KEY UPDATE count = 0
+      ";
+
+      $param = [ ':send_get' => $send_get ];
+
+      $this->set_query($sql, $param);
+      return $this->execute_return_status();
+  }
+  public function get_count_messenger_seen($username)
+  {
+    $sql = "
+    SELECT * FROM messenger_seen WHERE send_get LIKE '%$username'
+    ";
+    $this->set_query($sql);
+    return $this->load_rows();
+  }
+  public function get_count_messenger_seen_user($username_send,$username_get)
+  {
+    $sql = "
+    SELECT * FROM messenger_seen WHERE send_get LIKE '%$username_get' AND send_get LIKE '$username_send%'
+    ";
+    $this->set_query($sql);
+    return $this->load_row();
+  }
     public function get_profiles($username)
     {
         $sql = "SELECT DISTINCT teachers.teacher_id as ID,teachers.username,teachers.name,teachers.email,teachers.avatar,teachers.birthday,teachers.last_login,genders.gender_id,genders.gender_detail FROM `teachers`

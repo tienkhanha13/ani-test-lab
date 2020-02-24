@@ -47,28 +47,6 @@
 																						<div class="h-list-body">
 																								<div class="msg-user-list scroll-div">
 																										<div class="main-friend-list">
-																												<div class="media userlist-box " data-id="1" data-status="online" data-username="Nguyễn Văn Cao Kỳ">
-																														<a class="media-left" href="#!"><img class="media-object img-radius" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image ">
-																																<div class="live-status">3</div>
-																														</a>
-																														<div class="media-body">
-																																<h6 class="chat-header">Nguyễn Văn Cao Kỳ<small class="d-block text-c-green">Typing . . </small></h6>
-																														</div>
-																												</div>
-																												<div class="media userlist-box active " data-id="2" data-status="online" data-username="Nguyễn Ngô Thanh Diệu">
-																														<a class="media-left" href="#!"><img class="media-object img-radius" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
-																																<div class="live-status">1</div>
-																														</a>
-																														<div class="media-body">
-																																<h6 class="chat-header">Nguyễn Ngô Thanh Diệu<small class="d-block text-c-green">online</small></h6>
-																														</div>
-																												</div>
-																												<div class="media userlist-box " data-id="3" data-status="online" data-username="Phạm Bá Hậu">
-																														<a class="media-left" href="#!"><img class="media-object img-radius" src="assets/images/user/avatar-3.jpg" alt="Generic placeholder image"></a>
-																														<div class="media-body">
-																																<h6 class="chat-header">Phạm Bá Hậu<small class="d-block text-c-green">online</small></h6>
-																														</div>
-																												</div>
 																										</div>
 																								</div>
 																						</div>
@@ -80,33 +58,6 @@
 																				<div class="h-list-body">
 																						<div class="msg-user-chat scroll-div">
 																								<div class="main-friend-chat">
-																										<div class="media chat-messages">
-																												<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image"></a>
-																												<div class="media-body chat-menu-content">
-																														<div class="">
-																																<p class="chat-cont">Thử nghiệm tin nhắn.</p>
-																																<p class="chat-cont">Xin chào?</p>
-																														</div>
-																														<p class="chat-time">8:20 a.m.</p>
-																												</div>
-																										</div>
-																										<div class="media chat-messages">
-																												<div class="media-body chat-menu-reply">
-																														<div class="">
-																																<p class="chat-cont">Okay!</p>
-																														</div>
-																														<p class="chat-time">8:22 a.m.</p>
-																												</div>
-																										</div>
-																										<div class="media chat-messages">
-																												<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image"></a>
-																												<div class="media-body chat-menu-content">
-																														<div class="">
-																																<p class="chat-cont">Bạn như thế nào?</p>
-																														</div>
-																														<p class="chat-time">8:20 a.m.</p>
-																												</div>
-																										</div>
 																								</div>
 																						</div>
 																				</div>
@@ -151,99 +102,6 @@
 <!-- sweet alert Js -->
 <script src="assets/plugins/sweetalert/js/sweetalert.min.js"></script>
 <!-- custom js -->
-<script type="text/javascript">
-		$(document).ready(function() {
-				$("#msg-friends").on("keyup", function() {
-						var g = $(this).val().toLowerCase();
-						$(".msg-user-list .userlist-box .media-body .chat-header").each(function() {
-								var s = $(this).text().toLowerCase();
-								$(this).closest('.userlist-box')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
-						});
-				});
-				$('#OpenImgUpload').click(function() {
-						$('#imgupload').trigger('click');
-				});
-				$('.msg-send-chat').on('keyup', function(e) {
-						msg_cfc(e);
-				});
-				$('.btn-msg-send').on('click', function(e) {
-						msg_fc(e);
-				});
+<script src="res/js/messenger.js"></script>
 
-				function msg_cfc(e) {
-						if (e.which == 13) {
-								msg_fc(e);
-						}
-				};
-
-				function msg_fc(e) {
-						$('.msg-block .main-friend-chat').append('' +
-								'<div class="media chat-messages">' +
-								'<div class="media-body chat-menu-reply">' +
-								'<div class="">' +
-								'<p class="chat-cont">' + $('.msg-send-chat').val() + '</p>' +
-								'</div>' +
-								'<p class="chat-time">now</p>' +
-								'</div>' +
-								'</div>' +
-								'');
-						msg_frc($('.msg-send-chat').val());
-						msg_fsc();
-						$('.msg-send-chat').val(null);
-				};
-
-				function msg_frc(wrmsg) {
-						setTimeout(function() {
-								$('.msg-block .main-friend-chat').append('' +
-										'<div class="media chat-messages typing">' +
-										'<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image"></a>' +
-										'<div class="media-body chat-menu-content">' +
-										'<div class="rem-msg">' +
-										'<p class="chat-cont">Typing . . .</p>' +
-										'</div>' +
-										'<p class="chat-time">now</p>' +
-										'</div>' +
-										'</div>' +
-										'');
-								msg_fsc();
-						}, 1500);
-						setTimeout(function() {
-								document.getElementsByClassName("rem-msg")[0].innerHTML = "<p class='chat-cont'>hello superior personality you write '" + wrmsg + " '</p>";
-								$('.rem-msg').removeClass("rem-msg");
-								$('.typing').removeClass("typing");
-								msg_fsc();
-						}, 3000);
-				};
-
-				function msg_fsc() {
-						var tmph = $('.header-chat .main-friend-chat');
-						$('.msg-user-chat.scroll-div').scrollTop(tmph.outerHeight());
-				}
-				var ps = new PerfectScrollbar('.msg-user-list.scroll-div', {
-						wheelSpeed: .5,
-						swipeEasing: 0,
-						suppressScrollX: !0,
-						wheelPropagation: 1,
-						minScrollbarLength: 40,
-				});
-				var ps = new PerfectScrollbar('.msg-user-chat.scroll-div', {
-						wheelSpeed: .5,
-						swipeEasing: 0,
-						suppressScrollX: !0,
-						wheelPropagation: 1,
-						minScrollbarLength: 40,
-				});
-				$(".task-right-header-status").on('click', function() {
-						$(".taskboard-right-progress").slideToggle();
-				});
-
-				$(".message-mobile .media").on('click', function() {
-						var vw = $(window)[0].innerWidth;
-						if (vw < 992) {
-								$(".taskboard-right-progress").slideUp();
-								$(".msg-block").addClass('dis-chat');
-						}
-				});
-		});
-</script>
 <script src="res/js/profiles.js"></script>

@@ -62,6 +62,22 @@ class Controller_Student
 		}
 		echo json_encode($result);
 	}
+	public function get_count_messenger_seen()
+	{
+		$model = new Model_Student();
+		$data = $model->get_count_messenger_seen($this->info['username']);
+		echo json_encode($data);
+	}
+	public function get_new_messenger()
+	{
+		$username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '';
+		$model = new Model_Student();
+		$count = $model->get_count_messenger_seen_user($username,$this->info['username']);
+		$model->clear_messenger_seen($username.":".$this->info['username']);
+		$data = $model->get_new_messenger($username,$this->info['username'],$count->count);
+		sort($data);
+		echo json_encode($data);
+	}
 	public function show_diem_so()
 	{
 	  $view = new View_Student();

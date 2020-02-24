@@ -26,6 +26,57 @@ class Controller_Admin
         $this->info['name'] = $user_info->name;
         $this->info['avatar'] = $user_info->avatar;
     }
+    public function get_recent_messenger_user() // Lấy danh sách user nhắn tin gần đây
+    {
+      $model = new Model_Admin();
+      $recent_user = $model->get_recent_messenger_user($this->info['username']);
+      for ($i=0; $i < count($recent_user); $i++) {
+        $recent_user[$i] = $model->get_info_messenger_user($recent_user[$i]->username);
+      }
+      echo json_encode($recent_user);
+    }
+    public function get_user_messenger() // Lấy tin nhắn với một user POST['username']
+    {
+      $model = new Model_Admin();
+      $username_send = isset($_POST['username']) ? $_POST['username'] : 'admin';
+      $messenger = $model->get_user_messenger($username_send,$this->info['username']);
+      $model->clear_messenger_seen($username_send.":".$this->info['username']); // Reset tin nhắn chưa đọc về 0
+      echo json_encode($messenger);
+    }
+    public function send_messenger() // Gửi tin nhắn cho một username qua phương thức POST
+    {
+      $model = new Model_Admin();
+      $content = isset($_POST['content']) ? htmlspecialchars($_POST['content']) : '';
+      $username_get = isset($_POST['username']) ? $_POST['username'] : 'admin';
+      $username_send = $this->info['username'];
+
+      $send = $model->send_messenger($username_get,$username_send,$content);
+      if ($send && ($content!=null)) {
+        $result['status'] = 1;
+        $result['status_value'] = "Đã gửi tin nhắn đến ".$username_get;
+        $model->update_messenger_seen($username_send.":".$username_get); // Update tin nhắn chưa đọc
+      } else {
+        $result['status'] = 0;
+        $result['status_value'] = "Tin nhắn chưa được gửi!";
+      }
+      echo json_encode($result);
+    }
+    public function get_count_messenger_seen()
+    {
+      $model = new Model_Admin();
+      $data = $model->get_count_messenger_seen($this->info['username']);
+      echo json_encode($data);
+    }
+    public function get_new_messenger()
+    {
+      $username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '';
+      $model = new Model_Admin();
+      $count = $model->get_count_messenger_seen_user($username,$this->info['username']);
+      $model->clear_messenger_seen($username.":".$this->info['username']);
+      $data = $model->get_new_messenger($username,$this->info['username'],$count->count);
+      sort($data);
+      echo json_encode($data);
+    }
     public function get_score_analysis()
     {
       $model = new Model_Admin();

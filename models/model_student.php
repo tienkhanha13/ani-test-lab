@@ -42,11 +42,19 @@ class Model_Student extends Database
 	public function get_user_messenger($username_send,$username_get)
 	{
 			$sql = "
-			SELECT DISTINCT id, content, time FROM messenger WHERE username_send = :username_send AND username_get = :username_get ORDER BY time ASC
+			SELECT DISTINCT id, content, time, username_get, username_send FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
 			";
 			$param = [ ':username_send' => $username_send, ':username_get' => $username_get ];
 
 			$this->set_query($sql, $param);
+			return $this->load_rows();
+	}
+	public function get_new_messenger($username_send,$username_get,$count)
+	{
+			$sql = "
+			SELECT DISTINCT id, content, TIME, username_get, username_send FROM messenger WHERE username_send = '$username_send' AND username_get = '$username_get' ORDER BY TIME DESC LIMIT $count
+			";
+			$this->set_query($sql);
 			return $this->load_rows();
 	}
 	public function send_messenger($username_get,$username_send,$content)
@@ -81,6 +89,22 @@ class Model_Student extends Database
 
 			$this->set_query($sql, $param);
 			return $this->execute_return_status();
+	}
+	public function get_count_messenger_seen($username)
+	{
+		$sql = "
+		SELECT * FROM messenger_seen WHERE send_get LIKE '%$username'
+		";
+		$this->set_query($sql);
+		return $this->load_rows();
+	}
+	public function get_count_messenger_seen_user($username_send,$username_get)
+	{
+		$sql = "
+		SELECT * FROM messenger_seen WHERE send_get LIKE '%$username_get' AND send_get LIKE '$username_send%'
+		";
+		$this->set_query($sql);
+		return $this->load_row();
 	}
 	public function get_diem_so($student_id)
 	{
