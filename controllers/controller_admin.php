@@ -1153,7 +1153,7 @@ class Controller_Admin
                             $UBIS = 1;
                           }
                           if ($UBIS) {
-                              $lineText = $lineText . $text . '[TRUE]';
+                              $lineText = $lineText . $text . '[TRUE]'; //Đánh dấu câu đúng
                           } else {
                               $lineText = $lineText . $text;
                           }
