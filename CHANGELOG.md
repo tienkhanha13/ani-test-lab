@@ -1,3 +1,6 @@
+v1.2.1 (18/01/2020)
+    - Sửa thuật toán nhận diện câu hỏi.
+
 v1.2.0 (14/01/2020)
     - Thêm trang thống kê điểm số của toàn học sinh
 
