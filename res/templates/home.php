@@ -180,7 +180,7 @@
                                     <li><i class="ion-android-checkbox-outline"></i>Xem lại bài thi.</li>
                                     <li><i class="ion-android-checkbox-outline"></i>Chấm điểm và báo cáo về giáo viên.</li>
                                 </ul>
-                                <button class="btn btn-primary btn-action btn-fill">Xem thêm</button>
+                                <a href="huong-dan-su-dung"><button class="btn btn-primary btn-action btn-fill">Xem thêm</button></a>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                                     <li><i class="ion-android-checkbox-outline"></i>Có hướng dẫn giải chi tiết.</li>
                                     <li><i class="ion-android-checkbox-outline"></i>Chấm điểm và báo cáo về giáo viên.</li>
                                 </ul>
-                                <button class="btn btn-primary btn-action btn-fill">Xem thêm</button>
+                                <a href="huong-dan-su-dung"><button class="btn btn-primary btn-action btn-fill">Xem thêm</button></a>
                             </div>
                         </div>
                         <div class="f-left">
