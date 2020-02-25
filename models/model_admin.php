@@ -535,6 +535,17 @@ class Model_Admin extends Database
         $this->set_query($sql);
         return $this->load_rows();
     }
+    public function get_list_students_all()
+    {
+        $sql = "
+        SELECT DISTINCT student_id,username,name,email,avatar,birthday,last_login,gender_detail,class_name FROM `students`
+        INNER JOIN classes ON students.class_id = classes.class_id
+        INNER JOIN genders ON students.gender_id = genders.gender_id
+        ";
+
+        $this->set_query($sql);
+        return $this->load_rows();
+    }
     public function get_list_students_search($keyword, $column_order, $sort_order, $start, $offset)
     {
         $sql = "
