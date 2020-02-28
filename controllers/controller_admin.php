@@ -125,6 +125,11 @@ class Controller_Admin
         $model = new Model_Admin();
         return $model->get_analysis_login_day();
     }
+    public function get_analysis_login_month()
+    {
+        $model = new Model_Admin();
+        return $model->get_analysis_login_month();
+    }
     public function get_profiles()
     {
         $model = new Model_Admin();
@@ -1836,7 +1841,7 @@ public function show_dashboard()
     $view = new View_Admin();
     $model = new Model_Admin();
     $view->show_head_left($this->info);
-    $view->show_dashboard($this->get_dashboard_info(),$model->get_quest_incorrect_rank(),$this->get_analysis_login_day(),$this->get_score_analysis());
+    $view->show_dashboard($this->get_dashboard_info(),$model->get_quest_incorrect_rank(),$this->get_analysis_login_month(),$this->get_score_analysis());
     $view->show_foot();
 }
 public function show_teachers_panel()

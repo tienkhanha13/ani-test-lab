@@ -120,6 +120,14 @@ class Model_Admin extends Database
         $this->set_query($sql);
         return $this->load_rows();
     }
+    public function get_analysis_login_month()
+    {
+        $sql = "
+        SELECT * FROM `analysis_login_month` ORDER BY `analysis_login_month`.`time` DESC LIMIT 9
+        ";
+        $this->set_query($sql);
+        return $this->load_rows();
+    }
     public function get_feedback()
     {
         $sql = "

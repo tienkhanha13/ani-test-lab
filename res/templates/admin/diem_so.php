@@ -142,7 +142,7 @@
 										text: 'Biểu đồ theo dõi qua các tháng'
 								},
 								xAxis: {
-										categories: ['11/2019', '12/2019'],
+										categories: [ '01/2020', '02/2020'],
 								},
 								colors: ['#1de9b6', '#1dc4e9', '#A389D4', '#ed4902', '#f44236', '#f4c22b'],
 								labels: {
@@ -158,19 +158,19 @@
 								series: [{
 										type: 'column',
 										name: 'Điểm 8 - 10',
-										data: [7, 9]
+										data: [34, 56]
 								}, {
 										type: 'column',
 										name: 'Điểm 7 - 8',
-										data: [29, 36]
+										data: [67, 124]
 								}, {
 										type: 'column',
 										name: 'Điểm 5 - 7',
-										data: [44, 48]
+										data: [56, 73]
 								},	{
 										type: 'column',
 										name: 'Điểm 0 - 5',
-										data: [20, 7]
+										data: [34, 23]
 								},  {
 										type: 'pie',
 										name: 'Số lượng',

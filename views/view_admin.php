@@ -16,7 +16,7 @@ class View_Admin
     {
         include 'res/templates/admin/admins_panel.html';
     }
-    public function show_dashboard($dashboard,$quest_incorrect=NULL,$analysis_login_day=NULL,$score_analysis)
+    public function show_dashboard($dashboard,$quest_incorrect=NULL,$analysis_login_month=NULL,$score_analysis)
     {
         include 'res/templates/admin/dashboard.php';
     }
