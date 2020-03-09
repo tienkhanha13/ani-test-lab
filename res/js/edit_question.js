@@ -20,6 +20,7 @@ function submit_edit_question(data) {
           data[2]['value'] = CKEDITOR.instances.answer_b.getData();
           data[3]['value'] = CKEDITOR.instances.answer_c.getData();
           data[4]['value'] = CKEDITOR.instances.answer_d.getData();
+          data[5]['value'] = CKEDITOR.instances.huong_dan.getData();
           console.log(data);
           $('.loader-bg').fadeIn();
           var url = "index.php?action=check_edit_question";

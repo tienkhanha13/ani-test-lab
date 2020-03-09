@@ -942,11 +942,11 @@ class Model_Admin extends Database
         $this->set_query($sql);
         return $this->load_rows();
     }
-    public function edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer,$level_id)
+    public function edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer,$level_id,$huong_dan)
     {
-        $sql="UPDATE questions set question_content = :question_content, grade_id = :grade_id, unit = :unit, answer_a = :answer_a, answer_b = :answer_b, answer_c = :answer_c, answer_d = :answer_d, correct_answer = :correct_answer, subject_id = :subject_id, level_id = :level_id where question_id = :question_id";
+        $sql="UPDATE questions set question_content = :question_content, grade_id = :grade_id, unit = :unit, answer_a = :answer_a, answer_b = :answer_b, answer_c = :answer_c, answer_d = :answer_d, correct_answer = :correct_answer, subject_id = :subject_id, level_id = :level_id, huong_dan = :huong_dan where question_id = :question_id";
 
-        $param = [ ':question_id' => $question_id, ':subject_id' => $subject_id, ':question_content' => $question_content, ':grade_id' => $grade_id, ':unit' => $unit, ':answer_a' => $answer_a, ':answer_b' => $answer_b, ':answer_c' => $answer_c, ':answer_d' => $answer_d, ':correct_answer' => $correct_answer, ':level_id' => $level_id ];
+        $param = [ ':question_id' => $question_id, ':subject_id' => $subject_id, ':question_content' => $question_content, ':grade_id' => $grade_id, ':unit' => $unit, ':answer_a' => $answer_a, ':answer_b' => $answer_b, ':answer_c' => $answer_c, ':answer_d' => $answer_d, ':correct_answer' => $correct_answer, ':level_id' => $level_id, ':huong_dan' => $huong_dan ];
 
         $this->set_query($sql, $param);
         return $this->execute_return_status();

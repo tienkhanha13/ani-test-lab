@@ -180,7 +180,7 @@
                                     <li><i class="ion-android-checkbox-outline"></i>Xem lại bài thi.</li>
                                     <li><i class="ion-android-checkbox-outline"></i>Chấm điểm và báo cáo về giáo viên.</li>
                                 </ul>
-                                <a href="huong-dan-su-dung"><button class="btn btn-primary btn-action btn-fill">Xem thêm</button></a>
+                                <button class="btn btn-primary btn-action btn-fill" data-toggle="modal" data-target=".modal-1">Xem thêm</button>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                                     <li><i class="ion-android-checkbox-outline"></i>Có hướng dẫn giải chi tiết.</li>
                                     <li><i class="ion-android-checkbox-outline"></i>Chấm điểm và báo cáo về giáo viên.</li>
                                 </ul>
-                                <a href="huong-dan-su-dung"><button class="btn btn-primary btn-action btn-fill">Xem thêm</button></a>
+                                <button class="btn btn-primary btn-action btn-fill" data-toggle="modal" data-target=".modal-2">Xem thêm</button>
                             </div>
                         </div>
                         <div class="f-left">
@@ -349,6 +349,41 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade modal-1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title h4" id="myLargeModalLabel">Thi thử</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      </div>
+                      <div class="modal-body">
+                        <ul>
+                            <li><i class="ion-android-checkbox-outline"></i> Thống kê nhưng câu hỏi, kiến thức mà học sinh còn yếu.</li>
+                            <li><i class="ion-android-checkbox-outline"></i> Thống kê điểm số thi thử từ đó giúp giáo viên nắm rõ hơn về năng lực của học sinh.</li>
+                            <li><i class="ion-android-checkbox-outline"></i> Thống kê đáp án và tỉ lệ trả lời đúng của học sinh.</li>
+                        </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal fade modal-2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title h4" id="myLargeModalLabel">Ôn luyện</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                      <ul>
+                          <li><i class="ion-android-checkbox-outline"></i> Có thể làm lại bài thi vô số lần.</li>
+                          <li><i class="ion-android-checkbox-outline"></i> Các lần thi câu hỏi sẽ tự động đảo vị trí câu và đáp án.</li>
+                          <li><i class="ion-android-checkbox-outline"></i> Thống kê những câu hỏi mà học sinh hay mắc phải.</li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
             <!-- Scroll To Top -->
             <a id="back-top" class="back-to-top page-scroll" href="#main">
                 <i class="ion-ios-arrow-thin-up"></i>
