@@ -586,32 +586,32 @@ for ($i=1; $i < 10; $i++) {
         "marginTop": 10,
         "marginRight": 0,
         "dataProvider": [{
-            "year": "05/2019",
+            "year": "7/2019",
             "value": 894
           }, {
-              "year": "06/2019",
+              "year": "8/2019",
               "value": 1467
           }, {
-              "year": "07/2019",
+              "year": "9/2019",
               "value": 1561
           }, {
-              "year": "08/2019",
+              "year": "10/2019",
               "value": 2378
           }, {
-              "year": "09/2019",
+              "year": "11/2019",
               "value": 2651
           }, {
-              "year": "10/2019",
+              "year": "12/2019",
               "value": 2878
           }, {
-            "year": "11/2019",
-            "value": 2921
-        }, {
-            "year": "12/2019",
-            "value": 3134
-        }, {
             "year": "01/2020",
-            "value": 1324
+            "value": 1342
+        }, {
+            "year": "02/2020",
+            "value": 4213
+        }, {
+            "year": "03/2020",
+            "value": 4321
         }],
         "valueAxes": [{
             "axisAlpha": 0,
