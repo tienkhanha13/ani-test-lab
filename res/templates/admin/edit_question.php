@@ -115,6 +115,18 @@
                 <div class="col-md-12 col-xl-12">
                   <div class="card checked">
                     <div class="card-header">
+                      <h5>Hướng dẫn giải</h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <textarea contenteditable="true" class="form-control" id="huong_dan" name="huong_dan" rows="3" required><?=$question->huong_dan?></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-xl-12">
+                  <div class="card checked">
+                    <div class="card-header">
                       <h5>Tùy chỉnh</h5>
                     </div>
                     <div class="card-body">
@@ -276,5 +288,6 @@
     CKEDITOR.replace('answer_b',ckEditorC);
     CKEDITOR.replace('answer_c',ckEditorC);
     CKEDITOR.replace('answer_d',ckEditorC);
+    CKEDITOR.replace('huong_dan',ckEditorC);
     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 </script>

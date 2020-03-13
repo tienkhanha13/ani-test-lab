@@ -410,10 +410,10 @@ class Controller_Admin
         $model = new Model_Admin();
         echo json_encode($model->get_list_examine());
     }
-    public function edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer,$level_id)
+    public function edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer,$level_id,$huong_dan)
     {
         $model = new Model_Admin();
-        return $model->edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer,$level_id);
+        return $model->edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer,$level_id,$huong_dan);
     }
     public function del_question($question_id)
     {
@@ -1360,6 +1360,7 @@ class Controller_Admin
         $answer_b = isset($_POST['answer_b']) ? $_POST['answer_b'] : '';
         $answer_c = isset($_POST['answer_c']) ? $_POST['answer_c'] : '';
         $answer_d = isset($_POST['answer_d']) ? $_POST['answer_d'] : '';
+        $huong_dan = isset($_POST['huong_dan']) ? $_POST['huong_dan'] : '';
         $level_id = isset($_POST['level_id']) ? $_POST['level_id'] : '';
         $correct_answer = isset($_POST['correct_answer']) ? $_POST['correct_answer'] : '';
         if (empty($question_content)||empty($grade_id)||empty($unit)||empty($answer_a)||empty($answer_b)||empty($answer_c)||empty($answer_d)||empty($correct_answer)) {
@@ -1378,7 +1379,7 @@ class Controller_Admin
             if($correct_answer == "D"){
                 $true_correct_answer = $answer_d;
             }
-            $res = $this->edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $true_correct_answer,$level_id);
+            $res = $this->edit_question($question_id,$subject_id, $question_content, $grade_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $true_correct_answer,$level_id,$huong_dan);
             if($res) {
                 $result['status_value'] = "Sửa thành công, chuẩn bị chuyển trang!";
                 $result['status'] = 1;

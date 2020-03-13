@@ -414,6 +414,9 @@ p.text-muted {
   background-color: #6b7282;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
 }
+img.avatar {
+    width: 100px;
+}
 .correct > p, .correct > ol, .incorrect > p, .incorrect > ol, .blcorrect > p, .blcorrect > ol, .nonecorrect > p, .nonecorrect > ol{
   margin: 2px 2px !important;
 }
