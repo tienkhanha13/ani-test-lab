@@ -26,6 +26,13 @@ class Controller_Admin
         $this->info['name'] = $user_info->name;
         $this->info['avatar'] = $user_info->avatar;
     }
+    public function get_list_user_search()
+    {
+      $model = new Model_Admin();
+      $string = isset($_POST['string']) ? $_POST['string'] : 'a';
+      $data = $model->get_list_user_search($string);
+      echo json_encode($data);
+    }
     public function get_recent_messenger_user() // Lấy danh sách user nhắn tin gần đây
     {
       $model = new Model_Admin();

@@ -36,6 +36,7 @@
 																						<i class="fas fa-times float-right m-t-10"></i>
 																				</div>
 																				<div class="taskboard-right-progress">
+																						<button id="new_messenger" data-toggle="modal" data-target=".new_messenger" type="button" class="btn btn-sm btn-outline-primary"><i class="feather icon-message-square"></i>Tin nhắn mới</button>
 																						<div class="h-list-header">
 																								<div class="input-group">
 																										<input type="text" id="msg-friends" class="form-control" placeholder="Tìm kiếm . . .">
@@ -81,6 +82,32 @@
 										</div>
 								</div>
 								<!-- [ message ] end -->
+						</div>
+						<div class="modal fade new_messenger" tabindex="-1" role="dialog" aria-labelledby="new_messenger" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+												<div class="modal-header">
+														<h5 class="modal-title h4" id="myLargeModalLabel">Tìm kiếm người dùng</h5>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+												</div>
+												<div class="modal-body">
+													<div class="input-group">
+															<input type="text" id="search_new_user" class="form-control" placeholder="Tìm kiếm . . .">
+															<div class="input-group-append">
+																	<span class="input-group-text"><i class='feather icon-search'></i></span>
+															</div>
+													</div>
+												        <div class="card text-left">
+												            <div class="card-body new_messenger_scroll">
+																			<div class="row" id="list_new_users">
+
+												            </div>
+												        </div>
+												    </div>
+												</div>
+												</div>
+										</div>
+								</div>
 						</div>
 						<!-- [ Main Content ] end -->
 					</div>

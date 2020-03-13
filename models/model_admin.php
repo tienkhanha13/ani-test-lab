@@ -4,6 +4,20 @@ require_once('config/database.php');
 
 class Model_Admin extends Database
 {
+
+  public function get_list_user_search($string)
+  {
+    $sql = "
+    SELECT DISTINCT username, name, permission, avatar FROM `students` WHERE name LIKE '%$string%'
+    UNION
+    SELECT DISTINCT username, name, permission, avatar FROM `admins` WHERE name LIKE '%$string%'
+    UNION
+    SELECT DISTINCT username, name, permission, avatar FROM `teachers` WHERE name LIKE '%$string%'
+    ";
+
+    $this->set_query($sql);
+    return $this->load_rows();
+  }
   public function get_recent_messenger_user($username)
   {
       $sql = "

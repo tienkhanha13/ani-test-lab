@@ -12,6 +12,13 @@ $(document).ready(function() {
             $(this).closest('.userlist-box')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
         });
     });
+    $("#search_new_user").on("keyup", function() {
+        var str_n = $(this).val().toLowerCase();
+        console.log(str_n);
+        $("#list_new_users").empty();
+        get_list_user_search(str_n);
+
+    });
     $('#OpenImgUpload').click(function() {
         $('#imgupload').trigger('click');
     });
@@ -117,6 +124,58 @@ function get_recent_messenger_user() {
       show_recent_messenger_user(json_data);
   };
   $.get(url, success);
+}
+function get_list_user_search(string) {
+  var data = {
+    string: string
+  }
+  var url = "index.php?action=get_list_user_search";
+  var success = function(result) {
+      var json_data = $.parseJSON(result);
+      show_list_user_search(json_data);
+  };
+  $.post(url, data, success);
+}
+function show_list_user_search(json_data) {
+  $.each(json_data, function(index, value) {
+    if (value.permission==2) {
+      var badge = ' <a href="#!" class="badge badge-danger">GV</a>';
+    } else {
+      var badge = ' <a href="#!" class="badge badge-info">HS</a>';
+    }
+    $('#list_new_users').append(''+
+    '<div class="col-12">'+
+      '<div class="row">'+
+        '<div class="col-4">'+
+          '<img width="100px" height="100px" src="upload/avatar/'+ value.avatar +'" alt="'+ value.username +' avatar">'+
+        '</div>'+
+        '<div class="col-8">'+
+          '<h5 class="card-title">'+ value.name + badge + '</h5>' +
+          '<button data-username="'+ value.username +'" data-avatar="'+ value.avatar +'" data-name="'+ value.name +'" data-permission="'+ value.permission +'" onclick="new_messenger(this)" class="btn btn-sm btn-outline-primary"><i class="feather icon-message-square"></i>Gửi tin nhắn</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>'
+    );
+  });
+}
+function new_messenger(data) {
+  if (data.dataset.permission==2) {
+    var badge = ' <a href="#!" class="badge badge-danger">GV</a>';
+  } else {
+    var badge = ' <a href="#!" class="badge badge-info">HS</a>';
+  }
+  $('.main-friend-list').prepend('' +
+    '<div onclick="get_user_messenger('+ String.fromCharCode(39) + data.dataset.username + String.fromCharCode(39) +');" class="media userlist-box" data-status="online" data-username="'+ data.dataset.username +'">' +
+    '<a class="media-left" href="#!">' +
+    '<img class="media-object img-radius" src="upload/avatar/'+ data.dataset.avatar +'" alt="'+ data.dataset.username +' avatar">' +
+    '<div style="display:none" class="live-status"></div>'+
+    '</a>'+
+    '<div class="media-body">'+
+    '<h6 class="chat-header">'+ data.dataset.name + badge +
+    '<small class="d-block text-c-green">online</small></h6>'+
+    '</div>'+
+    '</div>'
+  );
 }
 function show_recent_messenger_user(json_data) {
   $.each(json_data, function(index, value) {
