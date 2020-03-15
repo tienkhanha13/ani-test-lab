@@ -14,7 +14,6 @@ $(document).ready(function() {
     });
     $("#search_new_user").on("keyup", function() {
         var str_n = $(this).val().toLowerCase();
-        console.log(str_n);
         $("#list_new_users").empty();
         get_list_user_search(str_n);
 
@@ -159,6 +158,7 @@ function show_list_user_search(json_data) {
   });
 }
 function new_messenger(data) {
+  $('.new_messenger').modal('hide');
   if (data.dataset.permission==2) {
     var badge = ' <a href="#!" class="badge badge-danger">GV</a>';
   } else {
@@ -176,6 +176,7 @@ function new_messenger(data) {
     '</div>'+
     '</div>'
   );
+  get_user_messenger(data.dataset.username);
 }
 function show_recent_messenger_user(json_data) {
   $.each(json_data, function(index, value) {

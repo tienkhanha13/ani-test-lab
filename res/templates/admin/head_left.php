@@ -102,6 +102,7 @@
                   </li>
               </ul>
           </li>
+          <li data-name="gui-thong-bao" class="nav-item"><a href="gui-thong-bao" class="nav-link"><span class="pcoded-micon"><i class="fas fa-bell"></i></span><span class="pcoded-mtext">Gửi/Xem thông báo</span></a></li>
           <li data-name="phan-hoi" class="nav-item"><a href="phan-hoi" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star-on"></i></span><span class="pcoded-mtext">Xem góp ý</span></a></li>
         </ul>
       </div>
@@ -180,7 +181,7 @@
             </div>
           </div>
         </li>
-        <li><a href="#!" class="displayChatbox"><i class="icon feather icon-mail"></i></a></li>
+        <li><a href="tin-nhan"><i class="icon feather icon-mail"></i></a></li>
         <li>
           <div class="dropdown drp-user">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

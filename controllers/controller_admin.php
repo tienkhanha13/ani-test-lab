@@ -1977,8 +1977,11 @@ public function show_subjects_panel()
 public function show_notifications_panel()
 {
     $view = new View_Admin();
+    $model = new Model_Admin();
+    $list_teacher = $model->get_list_teachers();
+    $list_class = $model->get_list_classes();
     $view->show_head_left($this->info);
-    $view->show_notifications_panel();
+    $view->show_notifications_panel($list_teacher,$list_class);
     $view->show_foot();
 }
 public function show_about()

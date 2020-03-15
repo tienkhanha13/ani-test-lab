@@ -176,7 +176,7 @@
             </div>
           </div>
         </li>
-        <li><a href="#!" class="displayChatbox"><i class="icon feather icon-mail"></i></a></li>
+        <li><a href="tin-nhan"><i class="icon feather icon-mail"></i></a></li>
         <li>
           <div class="dropdown drp-user">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
