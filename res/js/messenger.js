@@ -333,8 +333,6 @@ function upload_file_data(data) {
   var file_data = $('#imgupload').prop('files')[0];
   var form_data = new FormData();
   form_data.append('file', file_data);
-  form_data.append('upload', 'true');
-  console.log(form_data);
   $.ajax({
       url: 'index.php?action=upload_file_data',
       dataType: 'text',
