@@ -47,11 +47,12 @@ class Controller_Teacher
     public function send_messenger() // Gửi tin nhắn cho một username qua phương thức POST
     {
       $model = new Model_Teacher();
-      $content = isset($_POST['content']) ? htmlspecialchars($_POST['content']) : '';
+      $content = isset($_POST['content']) ? htmlspecialchars($_POST['content']) : 'Nội dung trống';
+      $type = isset($_POST['type']) ? htmlspecialchars($_POST['type']) : 'text';
       $username_get = isset($_POST['username']) ? $_POST['username'] : 'admin';
       $username_send = $this->info['username'];
 
-      $send = $model->send_messenger($username_get,$username_send,$content);
+      $send = $model->send_messenger($username_get,$username_send,$content,$type);
       if ($send && ($content!=null)) {
         $result['status'] = 1;
         $result['status_value'] = "Đã gửi tin nhắn đến ".$username_get;

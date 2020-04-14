@@ -53,11 +53,12 @@ class Controller_Admin
     public function send_messenger() // Gửi tin nhắn cho một username qua phương thức POST
     {
       $model = new Model_Admin();
-      $content = isset($_POST['content']) ? htmlspecialchars($_POST['content']) : '';
+      $content = isset($_POST['content']) ? htmlspecialchars($_POST['content']) : 'Nội dung trống';
+      $type = isset($_POST['type']) ? htmlspecialchars($_POST['type']) : 'text';
       $username_get = isset($_POST['username']) ? $_POST['username'] : 'admin';
       $username_send = $this->info['username'];
 
-      $send = $model->send_messenger($username_get,$username_send,$content);
+      $send = $model->send_messenger($username_get,$username_send,$content,$type);
       if ($send && ($content!=null)) {
         $result['status'] = 1;
         $result['status_value'] = "Đã gửi tin nhắn đến ".$username_get;
@@ -265,6 +266,11 @@ class Controller_Admin
     {
         $model = new Model_Admin();
         return $model->add_document($name, $grade_id, $subject_id, $mota, $path, $type_id);
+    }
+    public function upload_file_data_messenger($uploader,$file_name)
+    {
+        $model = new Model_Admin();
+        return $model->upload_file_data_messenger($uploader,$file_name);
     }
     public function del_document($document_id)
     {
@@ -1338,6 +1344,26 @@ class Controller_Admin
           $result['status'] = 0;
         }
         echo json_encode($result);
+    }
+    public function upload_file_data()
+    {
+      $uploader = $this->info['username'];
+      $file_name = time() . '_' . $_FILES['file']['name'];
+      $upload = move_uploaded_file($_FILES['file']['tmp_name'], 'upload/messenger/'.$file_name);
+      if ($upload) {
+          $add = $this->upload_file_data_messenger($uploader,$file_name);
+          if ($add) {
+            $result['status_value'] = $file_name;
+            $result['status'] = 1;
+          } else {
+            $result['status_value'] = "Lỗi cơ sở dữ liệu !!";
+            $result['status'] = 0;
+          }
+      } else {
+        $result['status_value'] = "Lỗi, tải file lên hệ thống!";
+        $result['status'] = 0;
+      }
+      echo json_encode($result);
     }
     public function check_del_question()
     {

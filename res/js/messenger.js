@@ -31,50 +31,8 @@ $(document).ready(function() {
         get_count_messenger_seen();
         get_new_messenger($('.media.userlist-box.active').attr('data-username'));
     }, 3000);
-    function msg_cfc(e) {
-        if (e.which == 13) {
-            msg_fc(e);
-        }
-    };
-    function msg_fc(e) {
-        var id = date_now();
-        $('.msg-block .main-friend-chat').append('' +
-            '<div class="media chat-messages">' +
-            '<div class="media-body chat-menu-reply">' +
-            '<div class="">' +
-            '<p class="chat-cont">' + $('.msg-send-chat').val() + '</p>' +
-            '</div>' +
-            '<p class="chat-time" id="'+id+'"><span class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></span></p>' +
-            '</div>' +
-            '</div>' +
-            '');
-        msg_fsc();
-        send_messenger($('.media.userlist-box.active').attr('data-username'),$('.msg-send-chat').val(),id);
-        $('.msg-send-chat').val(null);
-    };
 
-    function msg_frc(wrmsg) {
-        setTimeout(function() {
-            $('.msg-block .main-friend-chat').append('' +
-                '<div class="media chat-messages typing">' +
-                '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image"></a>' +
-                '<div class="media-body chat-menu-content">' +
-                '<div class="rem-msg">' +
-                '<p class="chat-cont">Typing . . .</p>' +
-                '</div>' +
-                '<p class="chat-time">now</p>' +
-                '</div>' +
-                '</div>' +
-                '');
-            msg_fsc();
-        }, 1500);
-        setTimeout(function() {
-            document.getElementsByClassName("rem-msg")[0].innerHTML = "<p class='chat-cont'>hello superior personality you write '" + wrmsg + " '</p>";
-            $('.rem-msg').removeClass("rem-msg");
-            $('.typing').removeClass("typing");
-            msg_fsc();
-        }, 3000);
-    };
+
     var ps = new PerfectScrollbar('.msg-user-list.scroll-div', {
         wheelSpeed: 1,
         swipeEasing: 0,
@@ -101,6 +59,27 @@ $(document).ready(function() {
         }
     });
 });
+function msg_cfc(e) {
+    if (e.which == 13) {
+        msg_fc(e);
+    }
+};
+function msg_fc(e) {
+    var id = date_now();
+    $('.msg-block .main-friend-chat').append('' +
+        '<div class="media chat-messages">' +
+        '<div class="media-body chat-menu-reply">' +
+        '<div class="">' +
+        '<p class="chat-cont">' + $('.msg-send-chat').val() + '</p>' +
+        '</div>' +
+        '<p class="chat-time" id="'+id+'"><span class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></span></p>' +
+        '</div>' +
+        '</div>' +
+        '');
+    msg_fsc();
+    send_messenger($('.media.userlist-box.active').attr('data-username'),$('.msg-send-chat').val(),id,'text');
+    $('.msg-send-chat').val(null);
+};
 function date_now() {
   var d = new Date();
   var n = d.getTime();
@@ -218,37 +197,67 @@ function get_user_messenger(username) {
 function show_user_messenger(json_data,username) {
   $.each(json_data, function(index, value) {
     if (value.username_get==username) {
-      $('.msg-block .main-friend-chat').append('' +
-          '<div class="media chat-messages">' +
-          '<div class="media-body chat-menu-reply">' +
-          '<div class="">' +
-          '<p class="chat-cont">' + value.content + '</p>' +
-          '</div>' +
-          '<p class="chat-time">'+ value.time +'</p>' +
-          '</div>' +
-          '</div>' +
-          '');
+      if (value.type == "link") {
+        var node = '' +
+            '<div class="media chat-messages">' +
+            '<div class="media-body chat-menu-reply">' +
+            '<div class="">' +
+            '<p class="chat-cont"><a href="upload/messenger/' + value.content + '">' + value.content + '</a></p>' +
+            '</div>' +
+            '<p class="chat-time">'+ value.time +'</p>' +
+            '</div>' +
+            '</div>' +
+            '';
+      } else {
+        var node = '' +
+            '<div class="media chat-messages">' +
+            '<div class="media-body chat-menu-reply">' +
+            '<div class="">' +
+            '<p class="chat-cont">' + value.content + '</p>' +
+            '</div>' +
+            '<p class="chat-time">'+ value.time +'</p>' +
+            '</div>' +
+            '</div>' +
+            '';
+      }
+      $('.msg-block .main-friend-chat').append(node);
     } else {
       var avatar = $('[data-username='+username+'] img').attr('src');
-      $('.msg-block .main-friend-chat').append('' +
-          '<div class="media chat-messages">' +
-          '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="'+avatar+'" alt="'+username+' avatar"></a>' +
-          '<div class="media-body chat-menu-content">' +
-          '<div class="">' +
-          '<p class="chat-cont">' + value.content + '</p>' +
-          '</div>' +
-          '<p class="chat-time">'+ value.time +'</p>' +
-          '</div>' +
-          '</div>' +
-          '');
+      if (value.type == "link") {
+        var node = '' +
+            '<div class="media chat-messages">' +
+            '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="'+avatar+'" alt="'+username+' avatar"></a>' +
+            '<div class="media-body chat-menu-content">' +
+            '<div class="">' +
+            '<p class="chat-cont"><a href="upload/messenger/' + value.content + '">' + value.content + '</a></p>' +
+            '</div>' +
+            '<p class="chat-time">'+ value.time +'</p>' +
+            '</div>' +
+            '</div>' +
+            '';
+      } else {
+        var node = '' +
+            '<div class="media chat-messages">' +
+            '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="'+avatar+'" alt="'+username+' avatar"></a>' +
+            '<div class="media-body chat-menu-content">' +
+            '<div class="">' +
+            '<p class="chat-cont">' + value.content + '</p>' +
+            '</div>' +
+            '<p class="chat-time">'+ value.time +'</p>' +
+            '</div>' +
+            '</div>' +
+            '';
+      }
+      $('.msg-block .main-friend-chat').append(node);
     }
   });
   clear_scroll();
 }
-function send_messenger(username,content,id) {
+function send_messenger(username,content,id,type) {
   var data = {
     username: username,
-    content: content
+    content: content,
+    type: type
   }
   var url = "index.php?action=send_messenger";
   var success = function(result) {
@@ -285,17 +294,33 @@ function get_new_messenger() {
         $.each(json_data, function(index, value) {
             if ($('.media.userlist-box.active').attr('data-username')==value.username_send) {
               var avatar = $('[data-username='+value.username_send+'] img').attr('src');
-              $('.msg-block .main-friend-chat').append('' +
-                  '<div class="media chat-messages">' +
-                  '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="'+avatar+'" alt="'+value.username_send+' avatar"></a>' +
-                  '<div class="media-body chat-menu-content">' +
-                  '<div class="">' +
-                  '<p class="chat-cont">' + value.content + '</p>' +
-                  '</div>' +
-                  '<p class="chat-time">'+ value.TIME +'</p>' +
-                  '</div>' +
-                  '</div>' +
-                  '');
+              if (value.type == "link") {
+                var node = '' +
+                    '<div class="media chat-messages">' +
+                    '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="'+avatar+'" alt="'+value.username_send+' avatar"></a>' +
+                    '<div class="media-body chat-menu-content">' +
+                    '<div class="">' +
+                    '<p class="chat-cont"><a href="upload/messenger/' + value.content + '">' + value.content + '</a></p>' +
+                    '</div>' +
+                    '<p class="chat-time">'+ value.TIME +'</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '';
+              } else {
+                var node = '' +
+                    '<div class="media chat-messages">' +
+                    '<a class="media-left photo-table" href="#!"><img class="media-object img-radius img-radius m-t-5" src="'+avatar+'" alt="'+value.username_send+' avatar"></a>' +
+                    '<div class="media-body chat-menu-content">' +
+                    '<div class="">' +
+                    '<p class="chat-cont">' + value.content + '</p>' +
+                    '</div>' +
+                    '<p class="chat-time">'+ value.TIME +'</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '';
+              }
+
+              $('.msg-block .main-friend-chat').append(node);
             }
         });
         scroll_bootom();
@@ -304,3 +329,41 @@ function get_new_messenger() {
   };
   $.post(url, data, success);
 }
+function upload_file_data(data) {
+  var file_data = $('#imgupload').prop('files')[0];
+  var form_data = new FormData();
+  form_data.append('file', file_data);
+  form_data.append('upload', 'true');
+  console.log(form_data);
+  $.ajax({
+      url: 'index.php?action=upload_file_data',
+      dataType: 'text',
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: form_data,
+      type: 'post',
+      success: function(result) {
+          var json_data = $.parseJSON(result);
+          if (json_data.status) {
+            var id = date_now();
+            $('.msg-block .main-friend-chat').append('' +
+                '<div class="media chat-messages">' +
+                '<div class="media-body chat-menu-reply">' +
+                '<div class="">' +
+                '<p class="chat-cont"><a href="upload/messenger/' + json_data.status_value + '">' + json_data.status_value + '</a></p>' +
+                '</div>' +
+                '<p class="chat-time" id="'+id+'"><span class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></span></p>' +
+                '</div>' +
+                '</div>' +
+                '');
+            msg_fsc();
+            send_messenger($('.media.userlist-box.active').attr('data-username'),json_data.status_value,id,'link');
+          } else {
+            swal(json_data.status_value, {
+                icon: "danger",
+            });
+          }
+      }
+  });
+};

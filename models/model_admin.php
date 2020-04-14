@@ -41,7 +41,7 @@ class Model_Admin extends Database
   public function get_user_messenger($username_send,$username_get)
   {
       $sql = "
-      SELECT DISTINCT id, content, time, username_get, username_send FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
+      SELECT DISTINCT id, content, time, username_get, username_send, type FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
       ";
       $param = [ ':username_send' => $username_send, ':username_get' => $username_get ];
 
@@ -56,13 +56,13 @@ class Model_Admin extends Database
       $this->set_query($sql);
       return $this->load_rows();
   }
-  public function send_messenger($username_get,$username_send,$content)
+  public function send_messenger($username_get,$username_send,$content,$type)
   {
       $sql = "
-      INSERT INTO messenger (id, username_send, username_get, content, time) VALUES (NULL, :username_send, :username_get, :content, current_timestamp());
+      INSERT INTO messenger (id, username_send, username_get, content, time, type) VALUES (NULL, :username_send, :username_get, :content, current_timestamp(), :type);
       ";
 
-      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content ];
+      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content, ':type' => $type ];
 
       $this->set_query($sql, $param);
       return $this->execute_return_status();
@@ -996,6 +996,15 @@ class Model_Admin extends Database
         $sql="INSERT INTO document (doc_name,doc_path,grade_id,subject_id,note,type_id) VALUES (:doc_name,:doc_path,:grade_id,:subject_id,:note,:type_id)";
 
         $param = [ ':doc_name' => $doc_name, ':doc_path' => $doc_path, ':grade_id' => $grade_id, ':subject_id' => $subject_id, ':note' => $note, ':type_id' => $type_id ];
+
+        $this->set_query($sql, $param);
+        return $this->execute_return_status();
+    }
+    public function upload_file_data_messenger($uploader,$file_name)
+    {
+        $sql="INSERT INTO file_upload (uploader,file_name) VALUES (:uploader,:file_name)";
+
+        $param = [ ':uploader' => $uploader, ':file_name' => $file_name ];
 
         $this->set_query($sql, $param);
         return $this->execute_return_status();

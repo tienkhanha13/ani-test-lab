@@ -55,13 +55,13 @@ class Model_Teacher extends Database
       $this->set_query($sql);
       return $this->load_rows();
   }
-  public function send_messenger($username_get,$username_send,$content)
+  public function send_messenger($username_get,$username_send,$content,$type)
   {
       $sql = "
-      INSERT INTO messenger (id, username_send, username_get, content, time) VALUES (NULL, :username_send, :username_get, :content, current_timestamp());
+      INSERT INTO messenger (id, username_send, username_get, content, time, type) VALUES (NULL, :username_send, :username_get, :content, current_timestamp(), :type);
       ";
 
-      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content ];
+      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content, ':type' => $type ];
 
       $this->set_query($sql, $param);
       return $this->execute_return_status();
