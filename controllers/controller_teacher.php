@@ -238,11 +238,7 @@ class Controller_Teacher
     }
     public function upload_file_data_messenger($uploader,$file_name)
     {
-<<<<<<< HEAD
         $model = new Model_Teacher();
-=======
-        $model = new Model_Admin();
->>>>>>> befca358b891e1a81ccaf06d5ef65a1ac62e2b8b
         return $model->upload_file_data_messenger($uploader,$file_name);
     }
     public function update_profiles($username, $name, $email, $password, $gender, $birthday)
