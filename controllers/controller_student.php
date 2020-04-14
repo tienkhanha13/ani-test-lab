@@ -45,7 +45,11 @@ class Controller_Student
 	}
 	public function upload_file_data_messenger($uploader,$file_name)
 	{
+<<<<<<< HEAD
 			$model = new Model_Student();
+=======
+			$model = new Model_Admin();
+>>>>>>> befca358b891e1a81ccaf06d5ef65a1ac62e2b8b
 			return $model->upload_file_data_messenger($uploader,$file_name);
 	}
 	public function get_user_messenger() // Lấy tin nhắn với một user POST['username']
