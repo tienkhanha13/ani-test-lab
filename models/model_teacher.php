@@ -37,10 +37,19 @@ class Model_Teacher extends Database
       $this->set_query($sql, $param);
       return $this->load_row();
   }
+  public function upload_file_data_messenger($uploader,$file_name)
+  {
+      $sql="INSERT INTO file_upload (uploader,file_name) VALUES (:uploader,:file_name)";
+
+      $param = [ ':uploader' => $uploader, ':file_name' => $file_name ];
+
+      $this->set_query($sql, $param);
+      return $this->execute_return_status();
+  }
   public function get_user_messenger($username_send,$username_get)
   {
       $sql = "
-      SELECT DISTINCT id, content, time, username_get, username_send FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
+      SELECT DISTINCT id, content, time, username_get, username_send, type FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
       ";
       $param = [ ':username_send' => $username_send, ':username_get' => $username_get ];
 

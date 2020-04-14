@@ -216,6 +216,31 @@ class Controller_Teacher
             }
         }
     }
+    public function upload_file_data()
+    {
+      $uploader = $this->info['username'];
+      $file_name = time() . '_' . $_FILES['file']['name'];
+      $upload = move_uploaded_file($_FILES['file']['tmp_name'], 'upload/messenger/'.$file_name);
+      if ($upload) {
+          $add = $this->upload_file_data_messenger($uploader,$file_name);
+          if ($add) {
+            $result['status_value'] = $file_name;
+            $result['status'] = 1;
+          } else {
+            $result['status_value'] = "Lỗi cơ sở dữ liệu !!";
+            $result['status'] = 0;
+          }
+      } else {
+        $result['status_value'] = "Lỗi, tải file lên hệ thống!";
+        $result['status'] = 0;
+      }
+      echo json_encode($result);
+    }
+    public function upload_file_data_messenger($uploader,$file_name)
+    {
+        $model = new Model_Admin();
+        return $model->upload_file_data_messenger($uploader,$file_name);
+    }
     public function update_profiles($username, $name, $email, $password, $gender, $birthday)
     {
         $model = new Model_Teacher();
