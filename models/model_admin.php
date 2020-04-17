@@ -105,14 +105,15 @@ class Model_Admin extends Database
     $this->set_query($sql);
     return $this->load_row();
   }
-    public function get_list_document()
-    {
-        $sql = "
-        SELECT DISTINCT * FROM document
-        ";
-        $this->set_query($sql);
-        return $this->load_rows();
-    }
+  public function get_list_document($subject_id,$grade_id,$type)
+	{
+			$sql = "SELECT DISTINCT * FROM document WHERE subject_id = :subject_id AND grade_id = :grade_id AND type_id = :type";
+
+			$param = [ ':subject_id' => $subject_id, ':grade_id' => $grade_id, ':type' => $type ];
+
+			$this->set_query($sql, $param);
+			return $this->load_rows();
+	}
     public function get_diem_so()
     {
       // code...

@@ -2055,40 +2055,50 @@ public function show_tai_lieu_video()
 {
   $view = new View_Admin();
   $model = new Model_Admin();
+  $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+  $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
   $view->show_head_left($this->info);
-  $view->show_tai_lieu_video($model->get_list_document());
+  $view->show_tai_lieu_video($model->get_list_document($subject_id,$grade_id,4));
   $view->show_foot();
 }
 public function show_tai_lieu_kien_thuc()
 {
   $view = new View_Admin();
   $model = new Model_Admin();
+  $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+  $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
   $view->show_head_left($this->info);
-  $view->show_tai_lieu_kien_thuc($model->get_list_document());
+  $view->show_tai_lieu_kien_thuc($model->get_list_document($subject_id,$grade_id,1));
   $view->show_foot();
 }
 public function show_tai_lieu_phuong_phap()
 {
   $view = new View_Admin();
   $model = new Model_Admin();
+  $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+  $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
   $view->show_head_left($this->info);
-  $view->show_tai_lieu_phuong_phap($model->get_list_document());
+  $view->show_tai_lieu_phuong_phap($model->get_list_document($subject_id,$grade_id,2));
   $view->show_foot();
 }
 public function show_tai_lieu_de_tham_khao()
 {
   $view = new View_Admin();
   $model = new Model_Admin();
+  $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+  $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
   $view->show_head_left($this->info);
-  $view->show_tai_lieu_de_tham_khao($model->get_list_document());
+  $view->show_tai_lieu_de_tham_khao($model->get_list_document($subject_id,$grade_id,3));
   $view->show_foot();
 }
 public function show_tai_lieu_khac()
 {
   $view = new View_Admin();
   $model = new Model_Admin();
+  $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+  $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
   $view->show_head_left($this->info);
-  $view->show_tai_lieu_khac($model->get_list_document());
+  $view->show_tai_lieu_khac($model->get_list_document($subject_id,$grade_id,5));
   $view->show_foot();
 }
 public function show_diem_so()

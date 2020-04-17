@@ -93,11 +93,11 @@
                   <li class=""><a href="tai-lieu" class="" >Quản lý</a></li>
                   <li class="pcoded-hasmenu"><a href="#!" class="">Phân loại</a>
                       <ul class="pcoded-submenu">
-                          <li class=""><a href="tai-lieu-kien-thuc" class="">Kiến thức</a></li>
-                          <li class=""><a href="tai-lieu-phuong-phap" class="">Phương pháp</a></li>
-                          <li class=""><a href="tai-lieu-de-tham-khao" class="">Đề tham khảo</a></li>
-                          <li class=""><a href="tai-lieu-video" class="">Tài liệu video</a></li>
-                          <li class=""><a href="tai-lieu-khac" class="">Tài liệu khác</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_kien_thuc" class="">Kiến thức</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_phuong_phap" class="">Phương pháp</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_de_tham_khao" class="">Đề tham khảo</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_video" class="">Tài liệu video</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_khac" class="">Tài liệu khác</a></li>
                       </ul>
                   </li>
               </ul>

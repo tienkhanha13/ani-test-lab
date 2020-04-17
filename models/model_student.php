@@ -4,12 +4,13 @@ require_once('config/database.php');
 
 class Model_Student extends Database
 {
-	public function get_list_document()
+	public function get_list_document($subject_id,$grade_id,$type)
 	{
-			$sql = "
-			SELECT DISTINCT * FROM document
-			";
-			$this->set_query($sql);
+			$sql = "SELECT DISTINCT * FROM document WHERE subject_id = :subject_id AND grade_id = :grade_id AND type_id = :type";
+
+			$param = [ ':subject_id' => $subject_id, ':grade_id' => $grade_id, ':type' => $type ];
+
+			$this->set_query($sql, $param);
 			return $this->load_rows();
 	}
 	public function get_list_subjects()
@@ -166,7 +167,7 @@ class Model_Student extends Database
 	}
 	public function get_rankings()
 	{
-		$sql = "SELECT DISTINCT ranking.rank_id, ranking.EXP, ranking.exp_remaining, rank.rank_name, students.name, classes.class_name FROM `ranking` INNER JOIN rank ON ranking.rank_id = rank.rank_id INNER JOIN students ON students.student_id = ranking.student_id INNER JOIN classes ON students.class_id = classes.class_id ORDER BY ranking.EXP DESC";
+		$sql = "SELECT DISTINCT ranking.rank_id, ranking.EXP, ranking.exp_remaining, rank.rank_name, students.name, classes.class_name, students.avatar FROM `ranking` INNER JOIN rank ON ranking.rank_id = rank.rank_id INNER JOIN students ON students.student_id = ranking.student_id INNER JOIN classes ON students.class_id = classes.class_id ORDER BY ranking.EXP DESC";
 
 		$this->set_query($sql);
 		return $this->load_rows();
@@ -338,7 +339,7 @@ class Model_Student extends Database
 		$time_to_do = (($get_sub_time->time_to_do)*60);
 		$starting_time = strtotime($get_sub_time->starting_time);
 		$curren_time = strtotime(date("Y-m-d H:i:s"));
-		$sub_time = ($curren_time - $starting_time) + 30; // cho phép sai số phạm vi 30s
+		$sub_time = ($curren_time - $starting_time) - 60; // cho phép sai số phạm vi 60s
 		$time_out = ($sub_time > $time_to_do) ? 1 : 0;
 		return $time_out;
 	}
@@ -409,34 +410,33 @@ class Model_Student extends Database
 		return true;
 	}
 
-	public function get_list_tests()
+	public function get_list_tests($grade_id)
 	{
-		$sql = "
-		SELECT DISTINCT tests.test_code,tests.test_name,tests.password,tests.total_questions,tests.time_to_do,tests.note,grades.detail as grade,subjects.subject_detail,subjects.subject_id,statuses.status_id,statuses.detail as status FROM `tests`
+		$sql = "SELECT DISTINCT tests.test_code, tests.test_name, tests.password, tests.total_questions, tests.time_to_do, tests.note, grades.detail AS grade, grades.grade_id, subjects.subject_detail, subjects.subject_id, statuses.status_id, statuses.detail AS STATUS FROM `tests`
 		INNER JOIN grades ON grades.grade_id = tests.grade_id
 		INNER JOIN subjects ON subjects.subject_id = tests.subject_id
 		INNER JOIN statuses ON statuses.status_id = tests.status_id
-		WHERE test_type=1
-		ORDER BY timest DESC
+		WHERE test_type = 1 AND grades.grade_id = :grade_id
+		ORDER BY timest DESC";
 
-		";
+			$param = [ ':grade_id' => $grade_id ];
 
-		$this->set_query($sql);
+		$this->set_query($sql, $param);
 		return $this->load_rows();
 	}
-	public function get_list_courses()
+	public function get_list_courses($grade_id)
 	{
-			$sql = "
-			SELECT DISTINCT tests.test_code,tests.test_name,tests.test_type,tests.password,tests.total_questions,tests.time_to_do,tests.note,grades.detail as grade,subjects.subject_detail,subjects.subject_id,statuses.status_id,statuses.detail as status FROM `tests`
-			INNER JOIN grades ON grades.grade_id = tests.grade_id
-			INNER JOIN subjects ON subjects.subject_id = tests.subject_id
-			INNER JOIN statuses ON statuses.status_id = tests.status_id
-			WHERE test_type=2
-			ORDER BY timest DESC
-			";
+		$sql = "SELECT DISTINCT tests.test_code, tests.test_name, tests.password, tests.total_questions, tests.time_to_do, tests.note, grades.detail AS grade, grades.grade_id, subjects.subject_detail, subjects.subject_id, statuses.status_id, statuses.detail AS STATUS FROM `tests`
+		INNER JOIN grades ON grades.grade_id = tests.grade_id
+		INNER JOIN subjects ON subjects.subject_id = tests.subject_id
+		INNER JOIN statuses ON statuses.status_id = tests.status_id
+		WHERE test_type = 2 AND grades.grade_id = :grade_id
+		ORDER BY timest DESC";
 
-			$this->set_query($sql);
-			return $this->load_rows();
+			$param = [ ':grade_id' => $grade_id ];
+
+		$this->set_query($sql, $param);
+		return $this->load_rows();
 	}
 
 	public function get_test($test_code)

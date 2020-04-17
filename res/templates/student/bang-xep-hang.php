@@ -62,7 +62,7 @@
 
 																	<tr class="unread">
 																		<td><h6 class="mb-1"><?=($i+1)?></h6></td>
-																			<td><img class="rounded-circle" style="width:40px;" src="assets/images/user/avatar-1.jpg" alt="activity-user"></td>
+																			<td><img class="rounded-circle" style="width:40px;" src="upload/avatar/<?=$ranking[$i]->avatar?>" alt="rank-user"></td>
 																			<td>
 																					<h6 class="mb-1"><?=$ranking[$i]->name?></h6>
 																					<p class="m-0">Lớp: <?=$ranking[$i]->class_name?></p>

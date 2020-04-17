@@ -253,6 +253,7 @@ class Controller_Student
 	}
 	public function submit_update_avatar()
 	{
+		$result = array();
 		if (isset($_FILES['file'])) {
 			$duoi = explode('.', $_FILES['file']['name']);
 			$duoi = $duoi[(count($duoi)-1)];
@@ -260,9 +261,18 @@ class Controller_Student
 				if (move_uploaded_file($_FILES['file']['tmp_name'], 'upload/avatar/'.$this->info['username'].'_' . $_FILES['file']['name'])) {
 					$avatar = $this->info['username'] .'_' . $_FILES['file']['name'];
 					$update = $this->update_avatar($avatar, $this->info['username']);
+					$result['status_value'] = "Đã thay đổi avatar, tải lại trang để hoàn tất !";
+					$result['status'] = 1;
 				}
+			} else {
+				$result['status_value'] = "Ảnh của bạn không đúng định dạng, vui lòng chọn ảnh có định dạng (jpg, png)";
+				$result['status'] = 0;
 			}
+		} else {
+			$result['status_value'] = "Lỗi không nhận được ảnh của bạn !";
+			$result['status'] = 0;
 		}
+		echo json_encode($result);
 	}
 	public function check_password()
 	{
@@ -470,7 +480,7 @@ class Controller_Student
 			$view->show_head_left($this->info);
 			$model = new Model_Student();
 			$scores = $model->get_scores($this->info['ID']);
-			$tests = $model->get_list_tests();
+			$tests = $model->get_list_tests($this->info['grade_id']);
 			$view->show_dashboard($tests, $scores);
 			$view->show_foot();
 		}
@@ -497,7 +507,7 @@ class Controller_Student
 			$view->show_head_left($this->info);
 			$model = new Model_Student();
 			$scores = $model->get_scores($this->info['ID']);
-			$tests = $model->get_list_courses();
+			$tests = $model->get_list_courses($this->info['grade_id']);
 			$view->show_courses_panel($tests, $scores);
 			$view->show_foot();
 		}
@@ -638,40 +648,50 @@ class Controller_Student
 	{
 	  $view = new View_Student();
 	  $model = new Model_Student();
+		$subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+		$grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : $this->info['grade_id'];
 	  $view->show_head_left($this->info);
-	  $view->show_tai_lieu_video($model->get_list_document());
+	  $view->show_tai_lieu_video($model->get_list_document($subject_id,$grade_id,4));
 	  $view->show_foot();
 	}
 	public function show_tai_lieu_kien_thuc()
 	{
 	  $view = new View_Student();
 	  $model = new Model_Student();
+		$subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+		$grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : $this->info['grade_id'];
 	  $view->show_head_left($this->info);
-	  $view->show_tai_lieu_kien_thuc($model->get_list_document());
+	  $view->show_tai_lieu_kien_thuc($model->get_list_document($subject_id,$grade_id,1));
 	  $view->show_foot();
 	}
 	public function show_tai_lieu_phuong_phap()
 	{
 	  $view = new View_Student();
 	  $model = new Model_Student();
+		$subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+		$grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : $this->info['grade_id'];
 	  $view->show_head_left($this->info);
-	  $view->show_tai_lieu_phuong_phap($model->get_list_document());
+	  $view->show_tai_lieu_phuong_phap($model->get_list_document($subject_id,$grade_id,2));
 	  $view->show_foot();
 	}
 	public function show_tai_lieu_de_tham_khao()
 	{
 	  $view = new View_Student();
 	  $model = new Model_Student();
+		$subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+		$grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : $this->info['grade_id'];
 	  $view->show_head_left($this->info);
-	  $view->show_tai_lieu_de_tham_khao($model->get_list_document());
+	  $view->show_tai_lieu_de_tham_khao($model->get_list_document($subject_id,$grade_id,3));
 	  $view->show_foot();
 	}
 	public function show_tai_lieu_khac()
 	{
 	  $view = new View_Student();
 	  $model = new Model_Student();
+		$subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+		$grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : $this->info['grade_id'];
 	  $view->show_head_left($this->info);
-	  $view->show_tai_lieu_khac($model->get_list_document());
+	  $view->show_tai_lieu_khac($model->get_list_document($subject_id,$grade_id,5));
 	  $view->show_foot();
 	}
 }

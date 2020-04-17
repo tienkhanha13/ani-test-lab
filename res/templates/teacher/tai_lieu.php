@@ -87,7 +87,7 @@
                     <ul>
 											<?php
 											for ($i=0; $i < count($document); $i++) {
-													echo '<li id="'.$document[$i]->id.'" class="doc_hover" ><a href="upload/document/'.$document[$i]->doc_path.'" >'.$document[$i]->doc_name.'</a><a style="color:red;margin-left: 10px;" href="#!" onclick="del_document('.$document[$i]->id.')">xóa</a></li>';
+													echo '<li id="'.$document[$i]->id.'" class="doc_hover" ><a href="upload/document/'.$document[$i]->doc_path.'" >'.$document[$i]->doc_name.'</a></li>';
 											}
 											 ?>
                     </ul>
