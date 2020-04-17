@@ -17,6 +17,13 @@ class Model_Teacher extends Database
     $this->set_query($sql);
     return $this->load_rows();
   }
+  public function get_list_document_all()
+  {
+      $sql = "SELECT DISTINCT * FROM document";
+
+      $this->set_query($sql);
+      return $this->load_rows();
+  }
   public function get_list_document($subject_id,$grade_id,$type)
   {
       $sql = "SELECT DISTINCT * FROM document WHERE subject_id = :subject_id AND grade_id = :grade_id AND type_id = :type";

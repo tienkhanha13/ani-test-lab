@@ -126,7 +126,7 @@ class Controller_Admin
     public function get_document()
     {
         $model = new Model_Admin();
-        return $model->get_list_document();
+        return $model->get_list_document_all();
     }
     public function get_analysis_login_day()
     {

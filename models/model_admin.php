@@ -114,6 +114,13 @@ class Model_Admin extends Database
 			$this->set_query($sql, $param);
 			return $this->load_rows();
 	}
+  public function get_list_document_all()
+  {
+      $sql = "SELECT DISTINCT * FROM document";
+
+      $this->set_query($sql);
+      return $this->load_rows();
+  }
     public function get_diem_so()
     {
       // code...

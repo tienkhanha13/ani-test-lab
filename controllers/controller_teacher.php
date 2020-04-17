@@ -256,7 +256,7 @@ class Controller_Teacher
     public function get_document()
     {
         $model = new Model_Admin();
-        return $model->get_list_document();
+        return $model->get_list_document_all();
     }
     public function check_add_question()
     {
