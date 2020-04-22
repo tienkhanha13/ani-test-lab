@@ -21,6 +21,19 @@
     <link rel="stylesheet" href="assets/plugins/prism/css/prism.min.css">
     <!-- vendor css -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- custom css -->
+    <style media="screen">
+    .tab-content {
+      background: #fff7db !important;
+    }
+    .nav-pills {
+      background-color: #c5fff1 !important;
+    }
+    .custom-control-label {
+      color: black !important;
+      font-weight: bold !important;
+    }
+    </style>
     <!-- MathJax -->
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
