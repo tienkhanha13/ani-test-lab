@@ -160,7 +160,7 @@ class Model_Student extends Database
 	public function get_list_tests_code()
 	{
 			$sql = "
-			SELECT DISTINCT * FROM tests
+			SELECT DISTINCT * FROM tests WHERE status_id != 7
 			";
 			$this->set_query($sql);
 			return $this->load_rows();
@@ -416,7 +416,7 @@ class Model_Student extends Database
 		INNER JOIN grades ON grades.grade_id = tests.grade_id
 		INNER JOIN subjects ON subjects.subject_id = tests.subject_id
 		INNER JOIN statuses ON statuses.status_id = tests.status_id
-		WHERE test_type = 1 AND grades.grade_id = :grade_id
+		WHERE test_type = 1 AND grades.grade_id = :grade_id AND tests.status_id != 7
 		ORDER BY timest DESC";
 
 			$param = [ ':grade_id' => $grade_id ];
@@ -430,7 +430,7 @@ class Model_Student extends Database
 		INNER JOIN grades ON grades.grade_id = tests.grade_id
 		INNER JOIN subjects ON subjects.subject_id = tests.subject_id
 		INNER JOIN statuses ON statuses.status_id = tests.status_id
-		WHERE test_type = 2 AND grades.grade_id = :grade_id
+		WHERE test_type = 2 AND grades.grade_id = :grade_id AND tests.status_id != 7
 		ORDER BY timest DESC";
 
 			$param = [ ':grade_id' => $grade_id ];
