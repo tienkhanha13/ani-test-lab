@@ -1,26 +1,45 @@
-$(function () {
+$(function() {
+    $("form").on('submit', function(event) {
+        event.preventDefault();
+    });
     get_notifications();
-})
-function get_notifications(ID) {
+});
+
+function get_notifications() {
+    $('#preload').removeClass('hidden');
     var url = "index.php?action=get_notifications";
     var success = function(result) {
         var json_data = $.parseJSON(result);
-        insert_notifications(json_data);
+        insert_notification(json_data);
+        $('#preload').addClass('hidden');
     };
     $.get(url, success);
 }
 
-function insert_notifications(data) {
-    var list = $('#student_notifications');
+function insert_notification(data) {
+    var list = $('#content');
     list.empty();
     for (var i = 0; i < data.length; i++) {
-        var message = $('<div class="fadeIn message" id="teacher-notifications-' + data[i].notification_id + '"></div>');
-        message.append('<span class="notification_id">#' + data[i].notification_id + '</span> - ');
-        message.append('<span class="name">' + data[i].name + '</span>');
-        message.append('<span class="username"> ( ' + data[i].username + ' )</span>');
-        message.append('<span class="notification_title">' + data[i].notification_title + '</span>');
-        message.append('<span class="notification_content">' + data[i].notification_content + '</span>');
-        message.append('<span class="time_sent">[ ' + data[i].time_sent + ' ]</span>');
-        list.append(message);
+      list.append('<div id="student-notifications-' + data[i].notification_id + '" class="col-md-12 col-sm-12">'+
+        '<div class="card card-border-c-green">'+
+              '<div class="card-header">'+
+                  '<a href="#!" class="text-secondary">#' + data[i].notification_id + '. ' + data[i].name + ' ( ' + data[i].username + ' ) </a>'+
+                  '<span class="label label-success float-right"> ' + data[i].time_sent + ' </span>'+
+              '</div>'+
+              '<div class="card-block card-task">'+
+                  '<div class="row">'+
+                      '<div class="col-sm-12">'+
+                          '<p class="task-due"><strong class="label label-success">' + data[i].notification_title + '</strong></p>'+
+                          '<p class="task-detail">' + data[i].notification_content + '</p>'+
+                      '</div>'+
+                  '</div>'+
+                  '<hr>'+
+                  '<div class="task-list-table">'+
+                      '<p class="task-due"><strong>Người Nhận : </strong><strong class="label label-warning">' + data[i].receive_name + '</strong> <span class="receive_username"> ( ' + data[i].receive_username + ' )</span></p>'+
+                      '<a href="#!"><img style="with:40px" class="img-fluid img-radius mr-1" src="assets/images/user/avatar-2.jpg" alt="1" /></a>'+
+                  '</div>'+
+              '</div>'+
+          '</div>'+
+      '</div>');
     }
 }

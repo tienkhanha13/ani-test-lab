@@ -170,7 +170,7 @@
                 </li>
               </ul>
               <div class="noti-footer">
-                <a href="#!">Hiện tất cả</a>
+                <a href="thong-bao">Hiện tất cả</a>
               </div>
             </div>
           </div>
