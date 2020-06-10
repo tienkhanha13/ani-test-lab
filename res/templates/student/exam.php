@@ -207,7 +207,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-block">
+                                        <div class="card-block" style="background-color: #fff7db !important;">
                                           <?php
                                           if ($test_type == 2) {
                                            ?>

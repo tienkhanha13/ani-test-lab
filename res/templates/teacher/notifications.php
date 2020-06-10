@@ -44,12 +44,13 @@
 									<div class="card">
 										<div class="row">
 											<div class="col-md-6 col-sm-12" style="padding: 30px 50px 30px 50px;height: 680px;overflow: auto;">
+												<p>Thông báo đã gửi</p>
 												<div id="student_content" class="row">
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-12" style="padding: 30px 50px 30px 50px;height: 680px;overflow: auto;">
+												<p>Thông báo đã nhận</p>
 												<div id="admin_content" class="row">
-
 												</div>
 											</div>
 										</div>

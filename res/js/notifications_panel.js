@@ -19,11 +19,65 @@ function get_teacher_notifications() {
     };
     $.get(url, success);
 }
-
+function sort_data(data) {
+  var array_receive_name = [];
+  var array_receive_username = [];
+  var array_notification = [];
+  for (var i = 0; i < data.length; i++) {
+    if (i == 0) {
+      array_receive_name.push(data[i].receive_name);
+      array_receive_username.push(data[i].receive_username);
+    } else {
+      if (data[i].notification_id == data[i-1].notification_id) {
+        array_receive_name.push(data[i].receive_name);
+        array_receive_username.push(data[i].receive_username);
+        console.log(i,"==",i-1);
+        console.log(array_receive_name);
+        console.log(array_receive_username);
+      } else {
+        var obj = {
+          "notification_id" : data[i-1].notification_id,
+          "receive_name" : array_receive_name,
+          "receive_username" : array_receive_username,
+          "name" : data[i-1].name,
+          "username" : data[i-1].username,
+          "notification_title" : data[i-1].notification_title,
+          "notification_content" : data[i-1].notification_content,
+          "time_sent" : data[i-1].time_sent
+        }
+        array_receive_name = [];
+        array_receive_username = [];
+        array_receive_name.push(data[i].receive_name);
+        array_receive_username.push(data[i].receive_username);
+        array_notification.push(obj);
+      }
+    }
+    if (i == (data.length-1)) {
+      var obj = {
+        "notification_id" : data[i].notification_id,
+        "receive_name" : array_receive_name,
+        "receive_username" : array_receive_username,
+        "username" : data[i].username,
+        "name" : data[i].name,
+        "notification_title" : data[i].notification_title,
+        "notification_content" : data[i].notification_content,
+        "time_sent" : data[i].time_sent
+      }
+      array_notification.push(obj);
+    }
+  }
+  return array_notification;
+}
 function show_teacher_notifications(data) {
     var list = $('#teacher_content');
     list.empty();
+    data = sort_data(data);
+
     for (var i = 0; i < data.length; i++) {
+      var arr_receive_name = "";
+      for (var j = 0; j < data[i].receive_name.length; j++) {
+        arr_receive_name += '<strong class="label label-sm label-warning">' + data[i].receive_name[j] + '</strong>';
+      }
       list.append('<div id="student-notifications-' + data[i].notification_id + '" class="col-md-12 col-sm-12">'+
         '<div class="card card-border-c-green">'+
               '<div class="card-header">'+
@@ -39,7 +93,9 @@ function show_teacher_notifications(data) {
                   '</div>'+
                   '<hr>'+
                   '<div class="task-list-table">'+
-                      '<p class="task-due"><strong>Người Nhận : </strong><strong class="label label-warning">' + data[i].receive_name + '</strong> <span class="receive_username"> ( ' + data[i].receive_username + ' )</span></p>'+
+                      '<p class="task-due"><strong>Người Nhận : </strong>'+
+                      arr_receive_name+
+                      '</p>'+
                       '<a href="#!"><img style="with:40px" class="img-fluid img-radius mr-1" src="assets/images/user/avatar-2.jpg" alt="1" /></a>'+
                   '</div>'+
               '</div>'+
@@ -63,9 +119,14 @@ function get_student_notifications() {
     $.get(url, success);
 }
 
+
+
 function show_student_notifications(data) {
     var list = $('#student_content');
     list.empty();
+
+
+
     for (var i = 0; i < data.length; i++) {
       list.append('<div id="student-notifications-' + data[i].notification_id + '" class="col-md-12 col-sm-12">'+
         '<div class="card card-border-c-green">'+

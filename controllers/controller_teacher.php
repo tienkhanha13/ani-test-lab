@@ -369,7 +369,7 @@ class Controller_Teacher
     public function get_notifications_to_student()
     {
         $model = new Model_Teacher();
-        echo json_encode($model->get_notifications_to_student($this->info['ID']));
+        echo json_encode($model->get_notifications_to_student($this->info['username']));
     }
     public function get_notifications_by_admin()
     {
@@ -558,8 +558,10 @@ class Controller_Teacher
     public function show_notifications()
     {
         $view = new View_Teacher();
+        $model = new Model_Teacher();
         $view->show_head_left($this->info);
-        $view->show_notifications();
+        $list_class = $model->get_list_classes_by_teacher($this->info['ID']);
+        $view->show_notifications($list_class);
         $view->show_foot();
     }
     public function show_profiles()

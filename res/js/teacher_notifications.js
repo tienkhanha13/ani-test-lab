@@ -20,10 +20,67 @@ function get_notifications_to_student() {
     $.get(url, success);
 }
 
+function sort_data(data) {
+  var array_class_id = [];
+  var array_class_name = [];
+  var array_notification = [];
+  for (var i = 0; i < data.length; i++) {
+    if (i == 0) {
+      array_class_id.push(data[i].class_id);
+      array_class_name.push(data[i].class_name);
+    } else {
+      if (data[i].notification_id == data[i-1].notification_id) {
+        array_class_id.push(data[i].class_id);
+        array_class_name.push(data[i].class_name);
+        console.log(i,"==",i-1);
+        console.log(array_class_id);
+        console.log(array_class_name);
+      } else {
+        var obj = {
+          "notification_id" : data[i-1].notification_id,
+          "class_id" : array_class_id,
+          "class_name" : array_class_name,
+          "name" : data[i-1].name,
+          "username" : data[i-1].username,
+          "notification_title" : data[i-1].notification_title,
+          "notification_content" : data[i-1].notification_content,
+          "time_sent" : data[i-1].time_sent
+        }
+        array_class_id = [];
+        array_class_name = [];
+        array_class_id.push(data[i].class_id);
+        array_class_name.push(data[i].class_name);
+        array_notification.push(obj);
+      }
+    }
+    if (i == (data.length-1)) {
+      console.log('cuối');
+      var obj = {
+        "notification_id" : data[i].notification_id,
+        "class_id" : array_class_id,
+        "class_name" : array_class_name,
+        "username" : data[i].username,
+        "name" : data[i].name,
+        "notification_title" : data[i].notification_title,
+        "notification_content" : data[i].notification_content,
+        "time_sent" : data[i].time_sent
+      }
+      array_notification.push(obj);
+    }
+  }
+  return array_notification;
+}
+
 function insert_student_notification(data) {
     var list = $('#student_content');
     list.empty();
+    data = sort_data(data);
+
     for (var i = 0; i < data.length; i++) {
+      var arr_class_name = "";
+      for (var j = 0; j < data[i].class_name.length; j++) {
+        arr_class_name += '<strong class="label label-warning">' + data[i].class_name[j] + '</strong>';
+      }
       list.append('<div id="student-notifications-' + data[i].notification_id + '" class="col-md-12 col-sm-12">'+
         '<div class="card card-border-c-green">'+
               '<div class="card-header">'+
@@ -39,7 +96,8 @@ function insert_student_notification(data) {
                   '</div>'+
                   '<hr>'+
                   '<div class="task-list-table">'+
-                      '<p class="task-due"><strong>Người Nhận : </strong><strong class="label label-warning">' + data[i].receive_name + '</strong> <span class="receive_username"> ( ' + data[i].receive_username + ' )</span></p>'+
+                      '<p class="task-due"><strong>Người Nhận : </strong>'+ arr_class_name +
+                      '</p>'+
                       '<a href="#!"><img style="with:40px" class="img-fluid img-radius mr-1" src="assets/images/user/avatar-2.jpg" alt="1" /></a>'+
                   '</div>'+
               '</div>'+
@@ -68,42 +126,33 @@ function show_admin_notification(data) {
     list.empty();
     for (var i = 0; i < data.length; i++) {
       list.append('<div id="student-notifications-' + data[i].notification_id + '" class="col-md-12 col-sm-12">'+
-        '<div class="card card-border-c-green">'+
+        '<div class="card card-border-c-red">'+
               '<div class="card-header">'+
                   '<a href="#!" class="text-secondary">#' + data[i].notification_id + '. ' + data[i].name + ' ( ' + data[i].username + ' ) </a>'+
-                  '<span class="label label-success float-right"> ' + data[i].time_sent + ' </span>'+
+                  '<span class="label label-danger float-right"> ' + data[i].time_sent + ' </span>'+
               '</div>'+
               '<div class="card-block card-task">'+
                   '<div class="row">'+
                       '<div class="col-sm-12">'+
-                          '<p class="task-due"><strong class="label label-success">' + data[i].notification_title + '</strong></p>'+
+                          '<p class="task-due"><strong class="label label-warning">' + data[i].notification_title + '</strong></p>'+
                           '<p class="task-detail">' + data[i].notification_content + '</p>'+
                       '</div>'+
                   '</div>'+
                   '<hr>'+
-                  '<div class="task-list-table">'+
-                      '<p class="task-due"><strong>Người Nhận : </strong><strong class="label label-warning">' + data[i].class_name + '</strong></p>'+
-                      '<a href="#!"><img style="with:40px" class="img-fluid img-radius mr-1" src="assets/images/user/avatar-2.jpg" alt="1" /></a>'+
-                  '</div>'+
               '</div>'+
           '</div>'+
       '</div>');
     }
 }
-
 function send_notification() {
     $('#preload').removeClass('hidden');
     var url = "index.php?action=send_notification";
-    var teacher_id_value = $('#teacher_id').val();
     var class_id_value = $('#class_id').val();
-    teacher_id = JSON.stringify(teacher_id_value);
-    class_id = JSON.stringify(class_id_value);
-    console.log(teacher_id);
-    console.log(class_id);
+    var class_id = JSON.stringify(class_id_value);
     var notification_title = $('#notification_title').val();
     var notification_content = $('#notification_content').val();
+    console.log(class_id);
     var data = {
-        teacher_id: teacher_id,
         class_id: class_id,
         notification_title: notification_title,
         notification_content: notification_content
@@ -121,11 +170,13 @@ function send_notification() {
               icon: "warning",
           });
         }
-        get_student_notifications();
-        get_teacher_notifications();
+        get_notifications_to_student();
+        $('#preload').addClass('hidden');
     };
     $.post(url, data, success);
 }
+
+
 
 // [ Searchable ] start
 $('.searchable').multiSelect({
@@ -169,13 +220,5 @@ $('#select-all-class').on('click', function() {
 });
 $('#deselect-all-class').on('click', function() {
     $('#class_id').multiSelect('deselect_all');
-    return false;
-});
-$('#select-all-teacher').on('click', function() {
-    $('#teacher_id').multiSelect('select_all');
-    return false;
-});
-$('#deselect-all-teacher').on('click', function() {
-    $('#teacher_id').multiSelect('deselect_all');
     return false;
 });

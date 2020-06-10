@@ -439,7 +439,7 @@ for ($i=1; $i < 10; $i++) {
                     type: 'value',
                     scale: true,
                     name: 'End',
-                    max: 30,
+                    max: 200,
                     min: 0,
                     boundaryGap: [0.2, 0.2]
                 }],
@@ -455,7 +455,7 @@ for ($i=1; $i < 10; $i++) {
                         var res = [];
                         var len = 10;
                         while (len--) {
-                            res.push(getRndInteger(1,3));
+                            res.push(getRndInteger(58,63));
                         }
                         return res;
                     })()
@@ -481,7 +481,7 @@ for ($i=1; $i < 10; $i++) {
                 var data0 = optiondyn.series[0].data;
                 var data1 = optiondyn.series[1].data;
                 data0.shift();
-                data0.push(Math.round(getRndInteger(1,3)));
+                data0.push(Math.round(getRndInteger(58,63)));
                 data1.shift();
                 data1.push((Math.random() * 10 + 5).toFixed(1) - 0);
 

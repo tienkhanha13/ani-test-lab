@@ -34,10 +34,6 @@ function insert_notification(data) {
                       '</div>'+
                   '</div>'+
                   '<hr>'+
-                  '<div class="task-list-table">'+
-                      '<p class="task-due"><strong>Người Nhận : </strong><strong class="label label-warning">' + data[i].receive_name + '</strong> <span class="receive_username"> ( ' + data[i].receive_username + ' )</span></p>'+
-                      '<a href="#!"><img style="with:40px" class="img-fluid img-radius mr-1" src="assets/images/user/avatar-2.jpg" alt="1" /></a>'+
-                  '</div>'+
               '</div>'+
           '</div>'+
       '</div>');

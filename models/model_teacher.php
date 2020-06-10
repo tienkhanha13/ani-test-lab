@@ -323,11 +323,11 @@ class Model_Teacher extends Database
         return $this->load_row()->class_name;
     }
 
-    public function get_notifications_to_student($teacher_id)
+    public function get_notifications_to_student($username)
     {
-        $sql = "SELECT DISTINCT * FROM notifications WHERE notification_id IN (SELECT DISTINCT notification_id FROM student_notifications WHERE student_notifications.class_id IN (SELECT DISTINCT classes.class_id FROM classes WHERE teacher_id = :teacher_id)) ORDER BY `time_sent` DESC";
+        $sql = "SELECT DISTINCT student_notifications.notification_id, student_notifications.class_id, classes.class_name, notifications.username, notifications.name, notifications.notification_title, notifications.notification_content, notifications.time_sent FROM student_notifications INNER JOIN notifications ON notifications.notification_id = student_notifications.notification_id INNER JOIN classes ON classes.class_id = student_notifications.class_id WHERE notifications.username = :username ORDER BY notifications.time_sent DESC";
 
-        $param = [ ':teacher_id' => $teacher_id ];
+        $param = [ ':username' => $username ];
 
         $this->set_query($sql, $param);
         return $this->load_rows();
