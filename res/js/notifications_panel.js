@@ -19,6 +19,45 @@ function get_teacher_notifications() {
     };
     $.get(url, success);
 }
+function sort_data_student(data) {
+  var array_class_name = [];
+  var array_notification = [];
+  for (var i = 0; i < data.length; i++) {
+    if (i == 0) {
+      array_class_name.push(data[i].class_name);
+    } else {
+      if (data[i].notification_id == data[i-1].notification_id) {
+      array_class_name.push(data[i].class_name);
+      } else {
+        var obj = {
+          "notification_id" : data[i-1].notification_id,
+          "class_name" : array_class_name,
+          "name" : data[i-1].name,
+          "username" : data[i-1].username,
+          "notification_title" : data[i-1].notification_title,
+          "notification_content" : data[i-1].notification_content,
+          "time_sent" : data[i-1].time_sent
+        }
+        array_class_name = [];
+        array_class_name.push(data[i].class_name);
+        array_notification.push(obj);
+      }
+    }
+    if (i == (data.length-1)) {
+      var obj = {
+        "notification_id" : data[i].notification_id,
+        "class_name" : array_class_name,
+        "username" : data[i].username,
+        "name" : data[i].name,
+        "notification_title" : data[i].notification_title,
+        "notification_content" : data[i].notification_content,
+        "time_sent" : data[i].time_sent
+      }
+      array_notification.push(obj);
+    }
+  }
+  return array_notification;
+}
 function sort_data(data) {
   var array_receive_name = [];
   var array_receive_username = [];
@@ -31,9 +70,6 @@ function sort_data(data) {
       if (data[i].notification_id == data[i-1].notification_id) {
         array_receive_name.push(data[i].receive_name);
         array_receive_username.push(data[i].receive_username);
-        console.log(i,"==",i-1);
-        console.log(array_receive_name);
-        console.log(array_receive_username);
       } else {
         var obj = {
           "notification_id" : data[i-1].notification_id,
@@ -76,10 +112,10 @@ function show_teacher_notifications(data) {
     for (var i = 0; i < data.length; i++) {
       var arr_receive_name = "";
       for (var j = 0; j < data[i].receive_name.length; j++) {
-        arr_receive_name += '<strong class="label label-sm label-warning">' + data[i].receive_name[j] + '</strong>';
+        arr_receive_name += '<span class="badge badge-success" style="margin-left: 5px;">' + data[i].receive_name[j] + '</span>';
       }
       list.append('<div id="student-notifications-' + data[i].notification_id + '" class="col-md-12 col-sm-12">'+
-        '<div class="card card-border-c-green">'+
+        '<div class="card card-border-c-red">'+
               '<div class="card-header">'+
                   '<a href="#!" class="text-secondary">#' + data[i].notification_id + '. ' + data[i].name + ' ( ' + data[i].username + ' ) </a>'+
                   '<span class="label label-success float-right"> ' + data[i].time_sent + ' </span>'+
@@ -124,10 +160,13 @@ function get_student_notifications() {
 function show_student_notifications(data) {
     var list = $('#student_content');
     list.empty();
-
-
+    data = sort_data_student(data);
 
     for (var i = 0; i < data.length; i++) {
+      var arr_class_name = "";
+      for (var j = 0; j < data[i].class_name.length; j++) {
+        arr_class_name += '<span class="badge badge-danger" style="margin-left: 5px;">' + data[i].class_name[j] + '</span>';
+      }
       list.append('<div id="student-notifications-' + data[i].notification_id + '" class="col-md-12 col-sm-12">'+
         '<div class="card card-border-c-green">'+
               '<div class="card-header">'+
@@ -143,7 +182,9 @@ function show_student_notifications(data) {
                   '</div>'+
                   '<hr>'+
                   '<div class="task-list-table">'+
-                      '<p class="task-due"><strong>Người Nhận : </strong><strong class="label label-warning">' + data[i].class_name + '</strong></p>'+
+                      '<p class="task-due"><strong>Người Nhận : </strong>'+
+                      arr_class_name+
+                      '</p>'+
                       '<a href="#!"><img style="with:40px" class="img-fluid img-radius mr-1" src="assets/images/user/avatar-2.jpg" alt="1" /></a>'+
                   '</div>'+
               '</div>'+
