@@ -13,7 +13,7 @@
 								</div>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
-									<li class="breadcrumb-item"><a href="#!">Gửi thông báo</a></li>
+									<li class="breadcrumb-item"><a href="#!">Thông báo</a></li>
 								</ul>
 							</div>
 						</div>

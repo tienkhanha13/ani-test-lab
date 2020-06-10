@@ -13,7 +13,7 @@
 								</div>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
-									<li class="breadcrumb-item"><a href="#!">Những câu hỏi học sinh chọn sai nhiều</a></li>
+									<li class="breadcrumb-item"><a href="#!">Thống kê</a></li>
 								</ul>
 							</div>
 						</div>
@@ -36,7 +36,7 @@
 							<div class="col-xl-12 col-md-12 datta-example">
 								<div class="card Application-list">
 							    <div class="card-header">
-							        <h5>Danh sách câu hỏi nhiều học sinh chọn sai</h5>
+							        <h5>Danh sách phân tích câu trả lời của học sinh</h5>
 							        <div class="card-header-right">
 							            <div class="btn-group card-option">
 							                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -78,7 +78,7 @@
 												<tr>
 														<td><h6 class="mt-3"><?=$analysis[$i]->question_content?>
 															<p class="mt-3">
-															<a href="#!" class="card-link badge badge-warning">Tỉ lệ chọn sai: <?=$analysis[$i]->count?>/<?=$analysis[$i]->total?> (<?=round($analysis[$i]->ratio)?>)%</a>
+															<a href="#!" class="card-link badge badge-warning">Tỉ lệ chọn đúng: <?=($analysis[$i]->total-$analysis[$i]->count)?>/<?=$analysis[$i]->total?> (<?=round((($analysis[$i]->total-$analysis[$i]->count)/$analysis[$i]->total)*100)?>)%</a>
                               <a href="#!" class="card-link badge badge-info"><?=$analysis[$i]->subject_detail?></a>
                               <a href="#!" class="card-link badge badge-success">Khối <?=$analysis[$i]->grade_id?></a>
                               <a href="#!" class="card-link badge badge-secondary">Chương <?=$analysis[$i]->unit?></a>
