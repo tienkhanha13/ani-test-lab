@@ -97,7 +97,7 @@
                   </li>
               </ul>
           </li>
-          <li data-name="thong-bao" class="nav-item"><a href="gui-thong-bao" class="nav-link"><span class="pcoded-micon"><i class="fas fa-bell"></i></span><span class="pcoded-mtext">Gửi/Xem thông báo</span></a></li>
+          <li data-name="thong-bao" class="nav-item"><a href="thong-bao" class="nav-link"><span class="pcoded-micon"><i class="fas fa-bell"></i></span><span class="pcoded-mtext">Gửi/Xem thông báo</span></a></li>
           <li data-name="phan-hoi" class="nav-item"><a href="phan-hoi" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star-on"></i></span><span class="pcoded-mtext">Đóng góp ý kiến</span></a></li>
         </ul>
       </div>
