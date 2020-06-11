@@ -131,7 +131,7 @@ class Model_Teacher extends Database
   }
     public function get_profiles($username)
     {
-        $sql = "SELECT DISTINCT teachers.teacher_id as ID,teachers.username,teachers.name,teachers.email,teachers.avatar,teachers.birthday,teachers.last_login,genders.gender_id,genders.gender_detail FROM `teachers`
+        $sql = "SELECT DISTINCT teachers.teacher_id as ID,teachers.username,teachers.name,teachers.email,teachers.avatar,teachers.birthday,teachers.last_login,genders.gender_id,teachers.notification,genders.gender_detail FROM `teachers`
         INNER JOIN genders ON genders.gender_id = teachers.gender_id
         WHERE username = :username";
 
@@ -362,7 +362,24 @@ class Model_Teacher extends Database
         $this->set_query($sql, $param);
         $this->execute_return_status();
     }
+    public function count_notify_class($class_id)
+    {
+        $sql="UPDATE students SET notification = notification + 1 WHERE class_id = :class_id";
 
+        $param = [ ':class_id' => $class_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
+    public function reset_count_notify_teacher($teacher_id)
+    {
+        $sql="UPDATE teachers SET notification = 0 WHERE teacher_id = :teacher_id";
+
+        $param = [ ':teacher_id' => $teacher_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
     public function get_score($student_id)
     {
         $sql = "SELECT DISTINCT * FROM `scores`

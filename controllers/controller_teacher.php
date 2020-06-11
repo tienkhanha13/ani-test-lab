@@ -19,6 +19,7 @@ class Controller_Teacher
         $this->info['username'] = $user_info->username;
         $this->info['name'] = $user_info->name;
         $this->info['avatar'] = $user_info->avatar;
+        $this->info['notification'] = $user_info->notification;
     }
     public function get_list_user_search()
     {
@@ -333,6 +334,7 @@ class Controller_Teacher
     {
         $model = new Model_Teacher();
         $model->notify_class($ID, $class_id);
+        $model->count_notify_class($class_id);
     }
     public function send_notification()
     {
@@ -559,6 +561,8 @@ class Controller_Teacher
     {
         $view = new View_Teacher();
         $model = new Model_Teacher();
+        $this->info['notification'] = 0;
+        $model->reset_count_notify_teacher($this->info['ID']);
         $view->show_head_left($this->info);
         $list_class = $model->get_list_classes_by_teacher($this->info['ID']);
         $view->show_notifications($list_class);

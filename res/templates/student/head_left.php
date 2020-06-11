@@ -32,6 +32,10 @@
       "HTML-CSS": { fonts: ["TeX"] }
     });
   </script>
+  <!-- custom js -->
+  <script type="text/javascript">
+    var count_notify = <?=$info['notification']?>;
+  </script>
   <script src='res/libs/MathJax/MathJax.js' async></script>
   <!-- ckeditor -->
   <script src='assets/plugins/wiris/ckeditor4/ckeditor.js'></script>
@@ -126,7 +130,7 @@
             </ul>
         </li>
         <li>
-            <a href="thong-bao" ><i class="icon feather icon-bell"></i></a>
+            <a href="thong-bao" ><i class="icon feather icon-bell"></i></a> <?php if ($info['notification']>0) { echo '<span class="badge badge-pill badge-danger">'.$info['notification'].'</span>';} ?>
         </li>
         <li><a href="tin-nhan"><i class="icon feather icon-mail"></i></a></li>
         <li>

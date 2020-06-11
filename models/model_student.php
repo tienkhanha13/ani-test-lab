@@ -210,7 +210,8 @@ class Model_Student extends Database
 	}
 	public function get_profiles($username)
 	{
-		$sql = "SELECT DISTINCT students.student_id as ID,students.username,students.name,students.email,students.avatar,students.class_id,students.birthday,students.last_login,genders.gender_id,genders.gender_detail,classes.grade_id,students.doing_exam,students.time_remaining FROM `students`
+		$sql = "SELECT DISTINCT students.student_id AS ID, students.username, students.name, students.email, students.avatar, students.class_id, students.birthday, students.last_login, genders.gender_id, students.notification, genders.gender_detail, classes.grade_id, students.doing_exam, students.time_remaining
+		FROM `students`
 		INNER JOIN genders ON genders.gender_id = students.gender_id
 		INNER JOIN classes ON classes.class_id = students.class_id
 		WHERE username = :username";
@@ -283,7 +284,15 @@ class Model_Student extends Database
 		$this->set_query($sql, $param);
 		return $this->load_rows();
 	}
+	public function reset_count_notify_student($student_id)
+	{
+			$sql="UPDATE students SET notification = 0 WHERE student_id = :student_id";
 
+			$param = [ ':student_id' => $student_id ];
+
+			$this->set_query($sql, $param);
+			$this->execute_return_status();
+	}
 	public function get_chats($class_id)
 	{
 		$sql = "SELECT DISTINCT * FROM `chats` WHERE class_id = :class_id ORDER BY ID DESC LIMIT 10";

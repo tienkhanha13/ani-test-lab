@@ -26,6 +26,7 @@ class Controller_Student
 		$this->info['grade_id'] = $user_info->grade_id;
 		$this->info['doing_exam'] = $user_info->doing_exam;
 		$this->info['time_remaining'] = $user_info->time_remaining;
+		$this->info['notification'] = $user_info->notification;
 	}
 	public function get_list_user_search()
 	{
@@ -568,6 +569,9 @@ class Controller_Student
 	public function show_notifications()
 	{
 		$view = new View_Student();
+		$model = new Model_Student();
+		$this->info['notification'] = 0;
+		$model->reset_count_notify_student($this->info['ID']);
 		$view->show_head_left($this->info);
 		$view->show_notifications();
 		$view->show_foot();

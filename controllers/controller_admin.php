@@ -558,11 +558,13 @@ class Controller_Admin
     {
         $model = new Model_Admin();
         $model->notify_teacher($ID, $teacher_id);
+        $model->count_notify_teacher($teacher_id);
     }
     public function notify_class($ID, $class_id)
     {
         $model = new Model_Admin();
         $model->notify_class($ID, $class_id);
+        $model->count_notify_class($class_id);
     }
     public function check_add_admin()
     {

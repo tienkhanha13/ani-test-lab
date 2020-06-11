@@ -1053,6 +1053,24 @@ class Model_Admin extends Database
         $this->set_query($sql, $param);
         $this->execute_return_status();
     }
+    public function count_notify_class($class_id)
+    {
+        $sql="UPDATE students SET notification = notification + 1 WHERE class_id = :class_id";
+
+        $param = [ ':class_id' => $class_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
+    public function count_notify_teacher($teacher_id)
+    {
+        $sql="UPDATE teachers SET notification = notification + 1 WHERE teacher_id = :teacher_id";
+
+        $param = [ ':teacher_id' => $teacher_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
     public function get_teacher_notifications()
     {
         $sql = "
