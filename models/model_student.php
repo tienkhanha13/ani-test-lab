@@ -4,12 +4,13 @@ require_once('config/database.php');
 
 class Model_Student extends Database
 {
-	public function get_list_document()
+	public function get_list_document($subject_id,$grade_id,$type)
 	{
-			$sql = "
-			SELECT DISTINCT * FROM document
-			";
-			$this->set_query($sql);
+			$sql = "SELECT DISTINCT * FROM document WHERE subject_id = :subject_id AND grade_id = :grade_id AND type_id = :type";
+
+			$param = [ ':subject_id' => $subject_id, ':grade_id' => $grade_id, ':type' => $type ];
+
+			$this->set_query($sql, $param);
 			return $this->load_rows();
 	}
 	public function get_list_subjects()
@@ -55,7 +56,7 @@ class Model_Student extends Database
 	public function get_user_messenger($username_send,$username_get)
 	{
 			$sql = "
-			SELECT DISTINCT id, content, time, username_get, username_send FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
+			SELECT DISTINCT id, content, time, username_get, username_send, type FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
 			";
 			$param = [ ':username_send' => $username_send, ':username_get' => $username_get ];
 
@@ -70,17 +71,26 @@ class Model_Student extends Database
 			$this->set_query($sql);
 			return $this->load_rows();
 	}
-	public function send_messenger($username_get,$username_send,$content)
+	public function upload_file_data_messenger($uploader,$file_name)
 	{
-			$sql = "
-			INSERT INTO messenger (id, username_send, username_get, content, time) VALUES (NULL, :username_send, :username_get, :content, current_timestamp());
-			";
+			$sql="INSERT INTO file_upload (uploader,file_name) VALUES (:uploader,:file_name)";
 
-			$param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content ];
+			$param = [ ':uploader' => $uploader, ':file_name' => $file_name ];
 
 			$this->set_query($sql, $param);
 			return $this->execute_return_status();
 	}
+	public function send_messenger($username_get,$username_send,$content,$type)
+  {
+      $sql = "
+      INSERT INTO messenger (id, username_send, username_get, content, time, type) VALUES (NULL, :username_send, :username_get, :content, current_timestamp(), :type);
+      ";
+
+      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content, ':type' => $type ];
+
+      $this->set_query($sql, $param);
+      return $this->execute_return_status();
+  }
 	public function update_messenger_seen($send_get)
 	{
 			$sql = "
@@ -150,14 +160,14 @@ class Model_Student extends Database
 	public function get_list_tests_code()
 	{
 			$sql = "
-			SELECT DISTINCT * FROM tests
+			SELECT DISTINCT * FROM tests WHERE status_id != 7
 			";
 			$this->set_query($sql);
 			return $this->load_rows();
 	}
 	public function get_rankings()
 	{
-		$sql = "SELECT DISTINCT ranking.rank_id, ranking.EXP, ranking.exp_remaining, rank.rank_name, students.name, classes.class_name FROM `ranking` INNER JOIN rank ON ranking.rank_id = rank.rank_id INNER JOIN students ON students.student_id = ranking.student_id INNER JOIN classes ON students.class_id = classes.class_id ORDER BY ranking.EXP DESC";
+		$sql = "SELECT DISTINCT ranking.rank_id, ranking.EXP, ranking.exp_remaining, rank.rank_name, students.name, classes.class_name, students.avatar FROM `ranking` INNER JOIN rank ON ranking.rank_id = rank.rank_id INNER JOIN students ON students.student_id = ranking.student_id INNER JOIN classes ON students.class_id = classes.class_id ORDER BY ranking.EXP DESC";
 
 		$this->set_query($sql);
 		return $this->load_rows();
@@ -200,7 +210,8 @@ class Model_Student extends Database
 	}
 	public function get_profiles($username)
 	{
-		$sql = "SELECT DISTINCT students.student_id as ID,students.username,students.name,students.email,students.avatar,students.class_id,students.birthday,students.last_login,genders.gender_id,genders.gender_detail,classes.grade_id,students.doing_exam,students.time_remaining FROM `students`
+		$sql = "SELECT DISTINCT students.student_id AS ID, students.username, students.name, students.email, students.avatar, students.class_id, students.birthday, students.last_login, genders.gender_id, students.notification, genders.gender_detail, classes.grade_id, students.doing_exam, students.time_remaining
+		FROM `students`
 		INNER JOIN genders ON genders.gender_id = students.gender_id
 		INNER JOIN classes ON classes.class_id = students.class_id
 		WHERE username = :username";
@@ -273,7 +284,15 @@ class Model_Student extends Database
 		$this->set_query($sql, $param);
 		return $this->load_rows();
 	}
+	public function reset_count_notify_student($student_id)
+	{
+			$sql="UPDATE students SET notification = 0 WHERE student_id = :student_id";
 
+			$param = [ ':student_id' => $student_id ];
+
+			$this->set_query($sql, $param);
+			$this->execute_return_status();
+	}
 	public function get_chats($class_id)
 	{
 		$sql = "SELECT DISTINCT * FROM `chats` WHERE class_id = :class_id ORDER BY ID DESC LIMIT 10";
@@ -329,7 +348,7 @@ class Model_Student extends Database
 		$time_to_do = (($get_sub_time->time_to_do)*60);
 		$starting_time = strtotime($get_sub_time->starting_time);
 		$curren_time = strtotime(date("Y-m-d H:i:s"));
-		$sub_time = ($curren_time - $starting_time) + 30; // cho phép sai số phạm vi 30s
+		$sub_time = ($curren_time - $starting_time) - 60; // cho phép sai số phạm vi 60s
 		$time_out = ($sub_time > $time_to_do) ? 1 : 0;
 		return $time_out;
 	}
@@ -400,34 +419,33 @@ class Model_Student extends Database
 		return true;
 	}
 
-	public function get_list_tests()
+	public function get_list_tests($grade_id)
 	{
-		$sql = "
-		SELECT DISTINCT tests.test_code,tests.test_name,tests.password,tests.total_questions,tests.time_to_do,tests.note,grades.detail as grade,subjects.subject_detail,subjects.subject_id,statuses.status_id,statuses.detail as status FROM `tests`
+		$sql = "SELECT DISTINCT tests.test_code, tests.test_name, tests.password, tests.total_questions, tests.time_to_do, tests.note, grades.detail AS grade, grades.grade_id, subjects.subject_detail, subjects.subject_id, statuses.status_id, statuses.detail AS STATUS FROM `tests`
 		INNER JOIN grades ON grades.grade_id = tests.grade_id
 		INNER JOIN subjects ON subjects.subject_id = tests.subject_id
 		INNER JOIN statuses ON statuses.status_id = tests.status_id
-		WHERE test_type=1
-		ORDER BY timest DESC
+		WHERE test_type = 1 AND grades.grade_id = :grade_id AND tests.status_id != 7
+		ORDER BY timest DESC";
 
-		";
+			$param = [ ':grade_id' => $grade_id ];
 
-		$this->set_query($sql);
+		$this->set_query($sql, $param);
 		return $this->load_rows();
 	}
-	public function get_list_courses()
+	public function get_list_courses($grade_id)
 	{
-			$sql = "
-			SELECT DISTINCT tests.test_code,tests.test_name,tests.test_type,tests.password,tests.total_questions,tests.time_to_do,tests.note,grades.detail as grade,subjects.subject_detail,subjects.subject_id,statuses.status_id,statuses.detail as status FROM `tests`
-			INNER JOIN grades ON grades.grade_id = tests.grade_id
-			INNER JOIN subjects ON subjects.subject_id = tests.subject_id
-			INNER JOIN statuses ON statuses.status_id = tests.status_id
-			WHERE test_type=2
-			ORDER BY timest DESC
-			";
+		$sql = "SELECT DISTINCT tests.test_code, tests.test_name, tests.password, tests.total_questions, tests.time_to_do, tests.note, grades.detail AS grade, grades.grade_id, subjects.subject_detail, subjects.subject_id, statuses.status_id, statuses.detail AS STATUS FROM `tests`
+		INNER JOIN grades ON grades.grade_id = tests.grade_id
+		INNER JOIN subjects ON subjects.subject_id = tests.subject_id
+		INNER JOIN statuses ON statuses.status_id = tests.status_id
+		WHERE test_type = 2 AND grades.grade_id = :grade_id AND tests.status_id != 7
+		ORDER BY timest DESC";
 
-			$this->set_query($sql);
-			return $this->load_rows();
+			$param = [ ':grade_id' => $grade_id ];
+
+		$this->set_query($sql, $param);
+		return $this->load_rows();
 	}
 
 	public function get_test($test_code)

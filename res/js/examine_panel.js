@@ -21,6 +21,7 @@ function show_list_tests(data) {
     var list = $('#list_tests');
     list.empty();
     for (var i = 0; i < data.length; i++) {
+      if (data[i].status_id != 7) {
         var tr = $('<tr class="" id="test-' + data[i].test_code + '"></tr>');
         tr.append('<td class="">' + data[i].test_name + '</td>');
         tr.append('<td class="">' + data[i].test_code + '</td>');
@@ -36,7 +37,7 @@ function show_list_tests(data) {
         else
             tr.append('<td class="">' + test_dropdown_button(data[i]) + '</td>');
         list.append(tr);
-    }
+    }}
     $('#responsive-table-model').DataTable({
         "language": {
             "lengthMenu": "Hiển thị _MENU_",
@@ -86,6 +87,7 @@ function test_dropdown_button(data) {
     '<a class="dropdown-item" href="chi-tiet-de-thi-' + data.test_code + '">Chi Tiết Đề </a>'+
     '<a class="dropdown-item" href="in-de-' + data.test_code + '">In Đề </a>'+
     '<a class="dropdown-item" href="diem-de-thi-' + data.test_code + '">Xem Điểm</a>'+
+    '<a class="dropdown-item" onclick="delete_test(' + data.test_code + ')" >Xoá đề</a>'+
     '</div>'+
     '</div>';
 }
@@ -134,7 +136,25 @@ function submit_add_test(data) {
     };
     $.post(url, data, success);
 }
-
+function delete_test(test_code) {
+    $('.loader-bg').fadeIn();
+    var data = {
+        test_code: test_code,
+        status_id: 7
+    };
+    var url = "index.php?action=check_toggle_test_status";
+    var success = function(result) {
+        var json_data = $.parseJSON(result);
+        show_status(json_data);
+        if (json_data.status) {
+            $('#responsive-table-model').DataTable().destroy();
+            get_list_tests();
+            $('select').select();
+        }
+        $('.loader-bg').fadeOut();
+    };
+    $.post(url, data, success);
+}
 function toggle_status(test_code, status_id) {
     $('.loader-bg').fadeIn();
     if (status_id == 1)

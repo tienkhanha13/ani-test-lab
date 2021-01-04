@@ -3,7 +3,14 @@ $(function() {
         event.preventDefault();
     });
     $('#upload_profiles').on('click', function() {
-        submit_update_profiles($('form').serializeArray());
+        var check_pass = $("#Password").val();
+        if (check_pass == ""){
+          swal("Bạn chưa nhập mật khẩu !!!", {
+              icon: "warning",
+          });
+        } else {
+          submit_update_profiles($('form').serializeArray());
+        }
     });
 });
 
@@ -28,7 +35,7 @@ function update_avatar() {
     var type = file_data.type;
     var size = file_data.size;
     var match = ["image/png", "image/jpg", "image/jpeg"];
-    if ((type == match[0] && size < 2048000) || (type == match[1] && size < 2048000) || (type == match[2] && size < 2048000)) {
+    if ((type == match[0] && size < 20480000) || (type == match[1] && size < 20480000) || (type == match[2] && size < 20480000)) {
         var form_data = new FormData();
         form_data.append('file', file_data);
         $.ajax({
@@ -42,9 +49,14 @@ function update_avatar() {
             success: function(result) {
                 $('#file').val('');
                 $('.loader-bg').fadeOut();
-                swal("Đã thay đổi avatar, vui lòng đợi trong vài phút để hệ thống cập nhật.", {
+                swal("Đã thay đổi avatar, tải lại trang để hoàn tất !", {
                     icon: "success",
-                });
+                }).then((okay) => {
+                  if (okay){
+                    location.reload();
+                  }
+                }
+                );
             }
         });
     } else {

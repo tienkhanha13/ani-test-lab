@@ -24,6 +24,29 @@
 				<div class="main-body">
 					<div class="page-wrapper">
 						<!-- [ Main Content ] start -->
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-12 col-md-4 col-xl-3">
+										<div class="form-group">
+											<label for="subject_id">Môn Học</label>
+											<select class="form-control" name="subject_id" id="subject_id" onchange="javascript:handleSelect()">
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-12 col-md-4 col-xl-3">
+										<div class="form-group">
+											<label for="subject_id">Khối lớp</label>
+											<select class="form-control" name="grade_id" id="grade_id" onchange="javascript:handleSelect()">
+												<option value="10">Lớp 10</option>
+												<option value="11">Lớp 11</option>
+												<option value="12">Lớp 12</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
             <div class="card">
                 <div class="card-header">
                     <h5>Danh sách tài liệu</h5>
@@ -32,9 +55,7 @@
                     <ul>
 											<?php
 											for ($i=0; $i < count($document); $i++) {
-												if ($document[$i]->type_id == 1) {
 													echo '<li><a href="upload/document/'.$document[$i]->doc_path.'" >'.$document[$i]->doc_name.'</a><span> ('.$document[$i]->note.')</span></li>';
-												}
 											}
 											 ?>
                     </ul>
@@ -76,6 +97,13 @@
 </script>
 <script type="text/javascript">
 	$(document).ready(function(){
+		select_subject_2();
   	$("[data-name=tai-lieu]").addClass("pcoded-trigger");
 	});
+	function handleSelect() {
+		var subject_id = $("#subject_id").val();
+		var grade_id = $("#grade_id").val();
+		var url = getUrlVars()["action"];
+		window.location = "?action="+url+"&subject_id="+subject_id+"&grade_id="+grade_id;
+	}
 </script>

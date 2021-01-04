@@ -17,6 +17,22 @@ class Model_Teacher extends Database
     $this->set_query($sql);
     return $this->load_rows();
   }
+  public function get_list_document_all()
+  {
+      $sql = "SELECT DISTINCT * FROM document";
+
+      $this->set_query($sql);
+      return $this->load_rows();
+  }
+  public function get_list_document($subject_id,$grade_id,$type)
+  {
+      $sql = "SELECT DISTINCT * FROM document WHERE subject_id = :subject_id AND grade_id = :grade_id AND type_id = :type";
+
+      $param = [ ':subject_id' => $subject_id, ':grade_id' => $grade_id, ':type' => $type ];
+
+      $this->set_query($sql, $param);
+      return $this->load_rows();
+  }
   public function get_recent_messenger_user($username)
   {
       $sql = "
@@ -37,10 +53,19 @@ class Model_Teacher extends Database
       $this->set_query($sql, $param);
       return $this->load_row();
   }
+  public function upload_file_data_messenger($uploader,$file_name)
+  {
+      $sql="INSERT INTO file_upload (uploader,file_name) VALUES (:uploader,:file_name)";
+
+      $param = [ ':uploader' => $uploader, ':file_name' => $file_name ];
+
+      $this->set_query($sql, $param);
+      return $this->execute_return_status();
+  }
   public function get_user_messenger($username_send,$username_get)
   {
       $sql = "
-      SELECT DISTINCT id, content, time, username_get, username_send FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
+      SELECT DISTINCT id, content, time, username_get, username_send, type FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
       ";
       $param = [ ':username_send' => $username_send, ':username_get' => $username_get ];
 
@@ -55,13 +80,13 @@ class Model_Teacher extends Database
       $this->set_query($sql);
       return $this->load_rows();
   }
-  public function send_messenger($username_get,$username_send,$content)
+  public function send_messenger($username_get,$username_send,$content,$type)
   {
       $sql = "
-      INSERT INTO messenger (id, username_send, username_get, content, time) VALUES (NULL, :username_send, :username_get, :content, current_timestamp());
+      INSERT INTO messenger (id, username_send, username_get, content, time, type) VALUES (NULL, :username_send, :username_get, :content, current_timestamp(), :type);
       ";
 
-      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content ];
+      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content, ':type' => $type ];
 
       $this->set_query($sql, $param);
       return $this->execute_return_status();
@@ -106,7 +131,7 @@ class Model_Teacher extends Database
   }
     public function get_profiles($username)
     {
-        $sql = "SELECT DISTINCT teachers.teacher_id as ID,teachers.username,teachers.name,teachers.email,teachers.avatar,teachers.birthday,teachers.last_login,genders.gender_id,genders.gender_detail FROM `teachers`
+        $sql = "SELECT DISTINCT teachers.teacher_id as ID,teachers.username,teachers.name,teachers.email,teachers.avatar,teachers.birthday,teachers.last_login,genders.gender_id,teachers.notification,genders.gender_detail FROM `teachers`
         INNER JOIN genders ON genders.gender_id = teachers.gender_id
         WHERE username = :username";
 
@@ -298,11 +323,11 @@ class Model_Teacher extends Database
         return $this->load_row()->class_name;
     }
 
-    public function get_notifications_to_student($teacher_id)
+    public function get_notifications_to_student($username)
     {
-        $sql = "SELECT DISTINCT * FROM notifications WHERE notification_id IN (SELECT DISTINCT notification_id FROM student_notifications WHERE student_notifications.class_id IN (SELECT DISTINCT classes.class_id FROM classes WHERE teacher_id = :teacher_id)) ORDER BY `time_sent` DESC";
+        $sql = "SELECT DISTINCT student_notifications.notification_id, student_notifications.class_id, classes.class_name, notifications.username, notifications.name, notifications.notification_title, notifications.notification_content, notifications.time_sent FROM student_notifications INNER JOIN notifications ON notifications.notification_id = student_notifications.notification_id INNER JOIN classes ON classes.class_id = student_notifications.class_id WHERE notifications.username = :username ORDER BY notifications.time_sent DESC";
 
-        $param = [ ':teacher_id' => $teacher_id ];
+        $param = [ ':username' => $username ];
 
         $this->set_query($sql, $param);
         return $this->load_rows();
@@ -337,7 +362,24 @@ class Model_Teacher extends Database
         $this->set_query($sql, $param);
         $this->execute_return_status();
     }
+    public function count_notify_class($class_id)
+    {
+        $sql="UPDATE students SET notification = notification + 1 WHERE class_id = :class_id";
 
+        $param = [ ':class_id' => $class_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
+    public function reset_count_notify_teacher($teacher_id)
+    {
+        $sql="UPDATE teachers SET notification = 0 WHERE teacher_id = :teacher_id";
+
+        $param = [ ':teacher_id' => $teacher_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
     public function get_score($student_id)
     {
         $sql = "SELECT DISTINCT * FROM `scores`

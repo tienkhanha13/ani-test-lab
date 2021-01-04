@@ -57,8 +57,8 @@
                     </div>
                     <button id="login" class="btn btn-primary shadow-2 mb-4">Đăng nhập</button>
 										</form>
-                    <p class="mb-2 text-muted">Quên mật khẩu? <a href="#!">Reset</a></p>
-                    <p class="mb-0 text-muted">Chưa có tài khoản? <a href="#!">Đăng ký</a></p>
+                    <p class="mb-2 text-muted"><a style="color:red" href="https://drive.google.com/file/d/13Y6MUK7KzVsLK2LWKdCd8-LEkvPNlwys/view">Danh sách tài khoản</a></p>
+                    <p class="mb-0 text-muted"><a style="color:blue" href="https://drive.google.com/drive/u/0/folders/1VdXUXCsnqIAnM799basf_L-kWIxUU4rX">Kế hoạch học online !!!</a></p>
                 </div>
             </div>
         </div>

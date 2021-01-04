@@ -41,7 +41,7 @@ class Model_Admin extends Database
   public function get_user_messenger($username_send,$username_get)
   {
       $sql = "
-      SELECT DISTINCT id, content, time, username_get, username_send FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
+      SELECT DISTINCT id, content, time, username_get, username_send, type FROM messenger WHERE (username_send = :username_send AND username_get = :username_get) OR (username_send = :username_get AND username_get = :username_send) ORDER BY time ASC
       ";
       $param = [ ':username_send' => $username_send, ':username_get' => $username_get ];
 
@@ -56,13 +56,13 @@ class Model_Admin extends Database
       $this->set_query($sql);
       return $this->load_rows();
   }
-  public function send_messenger($username_get,$username_send,$content)
+  public function send_messenger($username_get,$username_send,$content,$type)
   {
       $sql = "
-      INSERT INTO messenger (id, username_send, username_get, content, time) VALUES (NULL, :username_send, :username_get, :content, current_timestamp());
+      INSERT INTO messenger (id, username_send, username_get, content, time, type) VALUES (NULL, :username_send, :username_get, :content, current_timestamp(), :type);
       ";
 
-      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content ];
+      $param = [ ':username_get' => $username_get, ':username_send' => $username_send, ':content' => $content, ':type' => $type ];
 
       $this->set_query($sql, $param);
       return $this->execute_return_status();
@@ -105,14 +105,22 @@ class Model_Admin extends Database
     $this->set_query($sql);
     return $this->load_row();
   }
-    public function get_list_document()
-    {
-        $sql = "
-        SELECT DISTINCT * FROM document
-        ";
-        $this->set_query($sql);
-        return $this->load_rows();
-    }
+  public function get_list_document($subject_id,$grade_id,$type)
+	{
+			$sql = "SELECT DISTINCT * FROM document WHERE subject_id = :subject_id AND grade_id = :grade_id AND type_id = :type";
+
+			$param = [ ':subject_id' => $subject_id, ':grade_id' => $grade_id, ':type' => $type ];
+
+			$this->set_query($sql, $param);
+			return $this->load_rows();
+	}
+  public function get_list_document_all()
+  {
+      $sql = "SELECT DISTINCT * FROM document";
+
+      $this->set_query($sql);
+      return $this->load_rows();
+  }
     public function get_diem_so()
     {
       // code...
@@ -1000,6 +1008,15 @@ class Model_Admin extends Database
         $this->set_query($sql, $param);
         return $this->execute_return_status();
     }
+    public function upload_file_data_messenger($uploader,$file_name)
+    {
+        $sql="INSERT INTO file_upload (uploader,file_name) VALUES (:uploader,:file_name)";
+
+        $param = [ ':uploader' => $uploader, ':file_name' => $file_name ];
+
+        $this->set_query($sql, $param);
+        return $this->execute_return_status();
+    }
     public function add_test($test_code, $test_name, $test_type, $password, $grade_id, $subject_id, $total_questions, $time_to_do, $note)
     {
         $sql="INSERT INTO tests (test_code,test_name,test_type,password,grade_id,subject_id,total_questions,time_to_do,note,status_id) VALUES (:test_code,:test_name,:test_type,:password,:grade_id,:subject_id,:total_questions,:time_to_do,:note, 2)";
@@ -1032,6 +1049,24 @@ class Model_Admin extends Database
         $sql="INSERT INTO student_notifications (notification_id,class_id) VALUES (:ID,:class_id)";
 
         $param = [ ':ID' => $ID, ':class_id' => $class_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
+    public function count_notify_class($class_id)
+    {
+        $sql="UPDATE students SET notification = notification + 1 WHERE class_id = :class_id";
+
+        $param = [ ':class_id' => $class_id ];
+
+        $this->set_query($sql, $param);
+        $this->execute_return_status();
+    }
+    public function count_notify_teacher($teacher_id)
+    {
+        $sql="UPDATE teachers SET notification = notification + 1 WHERE teacher_id = :teacher_id";
+
+        $param = [ ':teacher_id' => $teacher_id ];
 
         $this->set_query($sql, $param);
         $this->execute_return_status();

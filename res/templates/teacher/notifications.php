@@ -9,7 +9,7 @@
 						<div class="row align-items-center">
 							<div class="col-md-12">
 								<div class="page-header-title">
-									<h5 class="m-b-10">Danh sách thông báo</h5>
+									<h5 class="m-b-10">Quản lý thông báo</h5>
 								</div>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
@@ -43,12 +43,65 @@
 								</nav>
 									<div class="card">
 										<div class="row">
-											<div class="col-md-12 col-sm-12" style="padding: 30px 50px 30px 50px;height: 680px;overflow: auto;">
-												<div id="content" class="row">
+											<div class="col-md-6 col-sm-12" style="padding: 30px 50px 30px 50px;height: 680px;overflow: auto;">
+												<p>Thông báo đã gửi</p>
+												<div id="student_content" class="row">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-12" style="padding: 30px 50px 30px 50px;height: 680px;overflow: auto;">
+												<p>Thông báo đã nhận</p>
+												<div id="admin_content" class="row">
 												</div>
 											</div>
 										</div>
 									</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="card col-md-12">
+								<div class="card-header">
+									<h5>Gửi thông báo</h5>
+									<div class="card-header-right">
+										<div class="btn-group card-option">
+											<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<i class="feather icon-more-horizontal"></i>
+											</button>
+											<ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+												<li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Phóng to</span><span style="display:none"><i class="feather icon-minimize"></i> Khôi phục</span></a></li>
+												<li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Đóng lại</span><span style="display:none"><i class="feather icon-plus"></i> Mở ra</span></a></li>
+												<li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> Tải lại</a></li>
+												<li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> Xóa</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<form id="send_notification">
+										<div class="form-group">
+												<label for="topic">Chủ đề</label>
+												<input id="notification_title" class="form-control" type="text" id="notification_title" name="notification_title" required>
+										</div>
+										<div class="form-group">
+												<label for="content">Nội dung</label>
+												<textarea id="notification_content" class="form-control" name="notification_content" required></textarea>
+										</div>
+										<div class="row">
+											<div class="col-6">
+											<label>Lớp</label><br>
+											<button type="button" class="btn btn-sm btn-primary   m-b-10" id="select-all-class">Chọn hết</button>
+											<button type="button" class="btn btn-sm btn-primary   m-b-10" id="deselect-all-class">Bỏ hết</button>
+												<select name="class_id" id="class_id" class="searchable" multiple="multiple">
+													<?php
+													foreach ($list_class as $key => $value) {
+													?>
+													<option value="<?=$value->class_id?>"><?=$value->class_name?></option>
+													<?php
+													}
+													?>
+												</select>
+											</div>
+										</div>
+										<button id="submit" type="submit" class="btn btn-primary mt-4">Gửi thông báo</button>
+								</form>
 							</div>
 						</div>
 						<!-- [ Main Content ] end -->
@@ -77,7 +130,7 @@
 <!-- Multi select Js -->
 <script src="assets/plugins/multi-select/js/jquery.quicksearch.js"></script>
 <script src="assets/plugins/multi-select/js/jquery.multi-select.js"></script>
-<script src="res/js/student_notifications.js"></script>
+<script src="res/js/teacher_notifications.js"></script>
 
 <script src='res/libs/MathJax/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 <script type="text/javascript">

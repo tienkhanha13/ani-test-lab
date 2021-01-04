@@ -52,7 +52,7 @@
 																</div>
 						                    <div class="form-group">
 						                        <label for="Password">Mật khẩu</label>
-						                        <input name="password" type="password" class="form-control" id="Password" placeholder="Mật khẩu">
+						                        <input name="password" type="password" class="form-control" id="Password" placeholder="Mật khẩu" required>
 						                    </div>
 						                    <button id="upload_profiles" type="submit" class="btn btn-primary">Cập nhật</button>
 						                </form>

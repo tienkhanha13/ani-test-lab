@@ -35,9 +35,9 @@ class View_Teacher
     {
         include 'res/templates/shared/messenger.php';
     }
-    public function show_notifications()
+    public function show_notifications($list_class)
     {
-        include 'res/templates/teacher/notifications.html';
+        include 'res/templates/teacher/notifications.php';
     }
     public function show_analysis_wrong_quest($analysis)
     {

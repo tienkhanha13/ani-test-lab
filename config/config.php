@@ -11,5 +11,5 @@ class Config
 	const EMAIL = "";
 	const RELEASE = "27/12/2019";
 	const TIMEZONE = "Asia/Ho_Chi_Minh";
-  const APP_URL = "http://localhost/";
+  const APP_URL = "https://ani-testlab.tech/";
 }

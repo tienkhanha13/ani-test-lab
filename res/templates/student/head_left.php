@@ -32,6 +32,10 @@
       "HTML-CSS": { fonts: ["TeX"] }
     });
   </script>
+  <!-- custom js -->
+  <script type="text/javascript">
+    var count_notify = <?=$info['notification']?>;
+  </script>
   <script src='res/libs/MathJax/MathJax.js' async></script>
   <!-- ckeditor -->
   <script src='assets/plugins/wiris/ckeditor4/ckeditor.js'></script>
@@ -72,11 +76,11 @@
               <ul class="pcoded-submenu">
                   <li class="pcoded-hasmenu"><a href="#!" class="">Phân loại</a>
                       <ul class="pcoded-submenu">
-                        <li class=""><a href="tai-lieu-kien-thuc" class="">Kiến thức</a></li>
-                        <li class=""><a href="tai-lieu-phuong-phap" class="">Phương pháp</a></li>
-                        <li class=""><a href="tai-lieu-de-tham-khao" class="">Đề tham khảo</a></li>
-                        <li class=""><a href="tai-lieu-video" class="">Tài liệu video</a></li>
-                        <li class=""><a href="tai-lieu-khac" class="">Tài liệu khác</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_kien_thuc" class="">Kiến thức</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_phuong_phap" class="">Phương pháp</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_de_tham_khao" class="">Đề tham khảo</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_video" class="">Tài liệu video</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_khac" class="">Tài liệu khác</a></li>
                       </ul>
                   </li>
               </ul>
@@ -89,6 +93,7 @@
               </ul>
           </li>
           <li data-name="bang-xep-hang" class="nav-item"><a href="bang-xep-hang" class="nav-link"><span class="pcoded-micon"><i class="feather icon-award"></i></span><span class="pcoded-mtext">Bảng xếp hạng thi đua</span></a></li>
+          <li data-name="thong-bao" class="nav-item"><a href="thong-bao" class="nav-link"><span class="pcoded-micon"><i class="fas fa-bell"></i></span><span class="pcoded-mtext">Xem thông báo</span></a></li>
           <li data-name="phan-hoi" class="nav-item"><a href="phan-hoi" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star-on"></i></span><span class="pcoded-mtext">Đóng góp ý kiến</span></a></li>
         </ul>
       </div>
@@ -125,56 +130,7 @@
             </ul>
         </li>
         <li>
-          <div class="dropdown">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
-            <div class="dropdown-menu dropdown-menu-right notification">
-              <div class="noti-head">
-                <h6 class="d-inline-block m-b-0">Thông báo</h6>
-                <div class="float-right">
-                  <a href="#!" class="m-r-10">Đánh dấu đã đọc</a>
-                  <a href="#!">xóa tất cả</a>
-                </div>
-              </div>
-              <ul class="noti-body">
-                <li class="n-title">
-                  <p class="m-b-0">MỚI</p>
-                </li>
-                <li class="notification">
-                  <div class="media">
-                    <img class="img-radius" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                      <p><strong>Nguyễn Văn Cao Kỳ</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12h</span></p>
-                      <p>Gửi bạn 1 tin nhắn</p>
-                    </div>
-                  </div>
-                </li>
-                <li class="n-title">
-                  <p class="m-b-0">GẦN ĐÂY</p>
-                </li>
-                <li class="notification">
-                  <div class="media">
-                    <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                      <p><strong>Nguyễn Ngô Thanh Diệu</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>1 ngày</span></p>
-                      <p>Gửi bạn 1 tin nhắn</p>
-                    </div>
-                  </div>
-                </li>
-                <li class="notification">
-                  <div class="media">
-                    <img class="img-radius" src="assets/images/user/avatar-3.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                      <p><strong>Phạm bá hậu</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>2 ngày</span></p>
-                      <p>Gửi bạn 1 tin nhắn</p>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <div class="noti-footer">
-                <a href="#!">Hiện tất cả</a>
-              </div>
-            </div>
-          </div>
+            <a href="thong-bao" ><i class="icon feather icon-bell"></i></a> <?php if ($info['notification']>0) { echo '<span class="badge badge-pill badge-danger">'.$info['notification'].'</span>';} ?>
         </li>
         <li><a href="tin-nhan"><i class="icon feather icon-mail"></i></a></li>
         <li>

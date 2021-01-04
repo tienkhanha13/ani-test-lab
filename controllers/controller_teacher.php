@@ -19,6 +19,7 @@ class Controller_Teacher
         $this->info['username'] = $user_info->username;
         $this->info['name'] = $user_info->name;
         $this->info['avatar'] = $user_info->avatar;
+        $this->info['notification'] = $user_info->notification;
     }
     public function get_list_user_search()
     {
@@ -47,11 +48,12 @@ class Controller_Teacher
     public function send_messenger() // Gửi tin nhắn cho một username qua phương thức POST
     {
       $model = new Model_Teacher();
-      $content = isset($_POST['content']) ? htmlspecialchars($_POST['content']) : '';
+      $content = isset($_POST['content']) ? htmlspecialchars($_POST['content']) : 'Nội dung trống';
+      $type = isset($_POST['type']) ? htmlspecialchars($_POST['type']) : 'text';
       $username_get = isset($_POST['username']) ? $_POST['username'] : 'admin';
       $username_send = $this->info['username'];
 
-      $send = $model->send_messenger($username_get,$username_send,$content);
+      $send = $model->send_messenger($username_get,$username_send,$content,$type);
       if ($send && ($content!=null)) {
         $result['status'] = 1;
         $result['status_value'] = "Đã gửi tin nhắn đến ".$username_get;
@@ -215,6 +217,31 @@ class Controller_Teacher
             }
         }
     }
+    public function upload_file_data()
+    {
+      $uploader = $this->info['username'];
+      $file_name = time() . '_' . $_FILES['file']['name'];
+      $upload = move_uploaded_file($_FILES['file']['tmp_name'], 'upload/messenger/'.$file_name);
+      if ($upload) {
+          $add = $this->upload_file_data_messenger($uploader,$file_name);
+          if ($add) {
+            $result['status_value'] = $file_name;
+            $result['status'] = 1;
+          } else {
+            $result['status_value'] = "Lỗi cơ sở dữ liệu !!";
+            $result['status'] = 0;
+          }
+      } else {
+        $result['status_value'] = "Lỗi, tải file lên hệ thống!";
+        $result['status'] = 0;
+      }
+      echo json_encode($result);
+    }
+    public function upload_file_data_messenger($uploader,$file_name)
+    {
+        $model = new Model_Teacher();
+        return $model->upload_file_data_messenger($uploader,$file_name);
+    }
     public function update_profiles($username, $name, $email, $password, $gender, $birthday)
     {
         $model = new Model_Teacher();
@@ -230,7 +257,7 @@ class Controller_Teacher
     public function get_document()
     {
         $model = new Model_Admin();
-        return $model->get_list_document();
+        return $model->get_list_document_all();
     }
     public function check_add_question()
     {
@@ -307,6 +334,7 @@ class Controller_Teacher
     {
         $model = new Model_Teacher();
         $model->notify_class($ID, $class_id);
+        $model->count_notify_class($class_id);
     }
     public function send_notification()
     {
@@ -343,7 +371,7 @@ class Controller_Teacher
     public function get_notifications_to_student()
     {
         $model = new Model_Teacher();
-        echo json_encode($model->get_notifications_to_student($this->info['ID']));
+        echo json_encode($model->get_notifications_to_student($this->info['username']));
     }
     public function get_notifications_by_admin()
     {
@@ -532,8 +560,12 @@ class Controller_Teacher
     public function show_notifications()
     {
         $view = new View_Teacher();
+        $model = new Model_Teacher();
+        $this->info['notification'] = 0;
+        $model->reset_count_notify_teacher($this->info['ID']);
         $view->show_head_left($this->info);
-        $view->show_notifications();
+        $list_class = $model->get_list_classes_by_teacher($this->info['ID']);
+        $view->show_notifications($list_class);
         $view->show_foot();
     }
     public function show_profiles()
@@ -720,22 +752,6 @@ class Controller_Teacher
         $view = new View_Teacher();
         $view->show_404();
     }
-    public function show_tai_lieu_video()
-    {
-      $view = new View_Teacher();
-      $model = new Model_Admin();
-      $view->show_head_left($this->info);
-      $view->show_tai_lieu_video($model->get_list_document());
-      $view->show_foot();
-    }
-    public function show_tai_lieu_kien_thuc()
-    {
-      $view = new View_Teacher();
-      $model = new Model_Admin();
-      $view->show_head_left($this->info);
-      $view->show_tai_lieu_kien_thuc($model->get_list_document());
-      $view->show_foot();
-    }
     public function show_messenger()
     {
         $view = new View_Teacher();
@@ -743,28 +759,54 @@ class Controller_Teacher
         $view->show_messenger();
         $view->show_foot();
     }
+    public function show_tai_lieu_video()
+    {
+      $view = new View_Teacher();
+      $model = new Model_Teacher();
+      $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+      $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
+      $view->show_head_left($this->info);
+      $view->show_tai_lieu_video($model->get_list_document($subject_id,$grade_id,4));
+      $view->show_foot();
+    }
+    public function show_tai_lieu_kien_thuc()
+    {
+      $view = new View_Teacher();
+      $model = new Model_Teacher();
+      $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+      $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
+      $view->show_head_left($this->info);
+      $view->show_tai_lieu_kien_thuc($model->get_list_document($subject_id,$grade_id,1));
+      $view->show_foot();
+    }
     public function show_tai_lieu_phuong_phap()
     {
       $view = new View_Teacher();
-      $model = new Model_Admin();
+      $model = new Model_Teacher();
+      $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+      $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
       $view->show_head_left($this->info);
-      $view->show_tai_lieu_phuong_phap($model->get_list_document());
+      $view->show_tai_lieu_phuong_phap($model->get_list_document($subject_id,$grade_id,2));
       $view->show_foot();
     }
     public function show_tai_lieu_de_tham_khao()
     {
       $view = new View_Teacher();
-      $model = new Model_Admin();
+      $model = new Model_Teacher();
+      $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+      $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
       $view->show_head_left($this->info);
-      $view->show_tai_lieu_de_tham_khao($model->get_list_document());
+      $view->show_tai_lieu_de_tham_khao($model->get_list_document($subject_id,$grade_id,3));
       $view->show_foot();
     }
     public function show_tai_lieu_khac()
     {
       $view = new View_Teacher();
-      $model = new Model_Admin();
+      $model = new Model_Teacher();
+      $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '2';
+      $grade_id = isset($_GET['grade_id']) ? $_GET['grade_id'] : '12';
       $view->show_head_left($this->info);
-      $view->show_tai_lieu_khac($model->get_list_document());
+      $view->show_tai_lieu_khac($model->get_list_document($subject_id,$grade_id,5));
       $view->show_foot();
     }
     public function show_diem_so()

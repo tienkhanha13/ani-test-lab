@@ -46,12 +46,12 @@
 							<h5><?=$tests[$i]->test_name?></h5>
 							<span class="text-muted d-block mt-1">Trạng thái :
 							<?php
-								if ($tests[$i]->status == 'Mở') {
-									echo '<span class="badge badge-success">'.$tests[$i]->status.'</span>';
-								} elseif ($tests[$i]->status == 'Cho Phép Xem Đáp Án') {
-									echo '<span class="badge badge-primary">'.$tests[$i]->status.'</span>';
+								if ($tests[$i]->STATUS == 'Mở') {
+									echo '<span class="badge badge-success">'.$tests[$i]->STATUS.'</span>';
+								} elseif ($tests[$i]->STATUS == 'Cho Phép Xem Đáp Án') {
+									echo '<span class="badge badge-primary">'.$tests[$i]->STATUS.'</span>';
 								} else {
-									echo '<span class="badge badge-danger">'.$tests[$i]->status.'</span>';
+									echo '<span class="badge badge-danger">'.$tests[$i]->STATUS.'</span>';
 								}
 							 ?>
 							</span>
@@ -121,12 +121,12 @@
 						<h5><?=$tests[$i]->test_name?></h5>
 						<span class="text-muted d-block mt-1">Trạng thái :
 						<?php
-							if ($tests[$i]->status == 'Mở') {
-								echo '<span class="badge badge-success">'.$tests[$i]->status.'</span>';
-							} elseif ($tests[$i]->status == 'Cho Phép Xem Đáp Án') {
-								echo '<span class="badge badge-primary">'.$tests[$i]->status.'</span>';
+							if ($tests[$i]->STATUS == 'Mở') {
+								echo '<span class="badge badge-success">'.$tests[$i]->STATUS.'</span>';
+							} elseif ($tests[$i]->STATUS == 'Cho Phép Xem Đáp Án') {
+								echo '<span class="badge badge-primary">'.$tests[$i]->STATUS.'</span>';
 							} else {
-								echo '<span class="badge badge-danger">'.$tests[$i]->status.'</span>';
+								echo '<span class="badge badge-danger">'.$tests[$i]->STATUS.'</span>';
 							}
 						 ?>
 						</span>

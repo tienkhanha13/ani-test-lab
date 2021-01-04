@@ -25,6 +25,15 @@
 					<div class="page-wrapper">
 						<!-- [ Main Content ] start -->
             <div class="card">
+							<div class="row">
+								<div class="col-sm-12 col-md-6 col-xl-4">
+									<div class="form-group">
+										<label for="subject_id">Môn Học</label>
+										<select class="form-control" name="subject_id" id="subject_id" onchange="javascript:handleSelect(this)">
+										</select>
+									</div>
+								</div>
+							</div>
                 <div class="card-header">
                     <h5>Danh sách tài liệu</h5>
                 </div>

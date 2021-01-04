@@ -201,3 +201,26 @@ function valid_email_on_profiles(data) {
     };
     $.post(url, data1, success);
 }
+function select_subject_2() {
+    var url = "index.php?action=get_list_subjects";
+    var success = function(result) {
+        var json_data = $.parseJSON(result);
+        var sl = $('select[name=subject_id]');
+        sl.empty();
+        if (json_data.length != 0) {
+            $.each(json_data, function(key, value) {
+                sl.append('<option value="' + value.subject_id + '">' + value.subject_detail + '</option>');
+            });
+        }
+        $("#subject_id").val(getUrlVars()["subject_id"]);
+        $("#grade_id").val(getUrlVars()["grade_id"]);
+    };
+    $.get(url, success);
+}
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+      vars[key] = value;
+  });
+  return vars;
+}

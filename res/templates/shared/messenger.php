@@ -67,7 +67,7 @@
 																						<div class="input-group mb-0">
 																								<input type="text" class="form-control msg-send-chat" placeholder="Text . . .">
 																								<div class="input-group-append">
-																										<input type="file" id="imgupload" style="display:none" />
+																										<input onchange="upload_file_data(this)" name="file" type="file" id="imgupload" style="display:none" />
 																										<button id="OpenImgUpload" class="btn btn-secondary btn-icon" type="button" data-toggle="tooltip" title="file attachment"><i class="feather icon-paperclip"></i></button>
 																								</div>
 																								<div class="input-group-append">

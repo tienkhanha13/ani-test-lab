@@ -59,6 +59,7 @@ function submit_add_doc() {
     form_data.append('name', name);
     form_data.append('mota', mota);
     form_data.append('type_id', type_id);
+    console.log(form_data);
     $.ajax({
         url: 'index.php?action=check_add_doc',
         dataType: 'text',

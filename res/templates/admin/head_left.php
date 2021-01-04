@@ -62,7 +62,7 @@
               <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-trending-up"></i></span><span class="pcoded-mtext">Thống kê dữ liệu</span></a>
               <ul class="pcoded-submenu">
                 <li data-name="diem-so" class="nav-item"><a href="diem-so" class="nav-link"><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Điểm số</span></a></li>
-                <li data-name="cau-hoi-chon-sai" class="nav-item"><a href="cau-hoi-chon-sai" class="nav-link"><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Câu hỏi chọn sai</span></a></li>
+                <li data-name="cau-hoi-chon-sai" class="nav-item"><a href="cau-hoi-chon-sai" class="nav-link"><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Câu hỏi chọn đúng</span></a></li>
                 <li data-name="ti-le-chon-sai" class="nav-item"><a href="ti-le-chon-sai" class="nav-link"><span class="pcoded-micon"><i class="feather icon-percent"></i></span><span class="pcoded-mtext">Tỉ lệ trả lời</span></a></li>
                 <li data-name="danh-gia-cau-hoi" class="nav-item"><a href="danh-gia-cau-hoi" class="nav-link"><span class="pcoded-micon"><i class="feather icon-alert-triangle"></i></span><span class="pcoded-mtext">Đánh giá câu hỏi</span></a></li>
               </ul>
@@ -93,11 +93,11 @@
                   <li class=""><a href="tai-lieu" class="" >Quản lý</a></li>
                   <li class="pcoded-hasmenu"><a href="#!" class="">Phân loại</a>
                       <ul class="pcoded-submenu">
-                          <li class=""><a href="tai-lieu-kien-thuc" class="">Kiến thức</a></li>
-                          <li class=""><a href="tai-lieu-phuong-phap" class="">Phương pháp</a></li>
-                          <li class=""><a href="tai-lieu-de-tham-khao" class="">Đề tham khảo</a></li>
-                          <li class=""><a href="tai-lieu-video" class="">Tài liệu video</a></li>
-                          <li class=""><a href="tai-lieu-khac" class="">Tài liệu khác</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_kien_thuc" class="">Kiến thức</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_phuong_phap" class="">Phương pháp</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_de_tham_khao" class="">Đề tham khảo</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_video" class="">Tài liệu video</a></li>
+                        <li class=""><a href="index.php?action=show_tai_lieu_khac" class="">Tài liệu khác</a></li>
                       </ul>
                   </li>
               </ul>
@@ -130,56 +130,7 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <li>
-          <div class="dropdown">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
-            <div class="dropdown-menu dropdown-menu-right notification">
-              <div class="noti-head">
-                <h6 class="d-inline-block m-b-0">Thông báo</h6>
-                <div class="float-right">
-                  <a href="#!" class="m-r-10">Đánh dấu đã đọc</a>
-                  <a href="#!">xóa tất cả</a>
-                </div>
-              </div>
-              <ul class="noti-body">
-                <li class="n-title">
-                  <p class="m-b-0">MỚI</p>
-                </li>
-                <li class="notification">
-                  <div class="media">
-                    <img class="img-radius" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                      <p><strong>Nguyễn Văn Cao Kỳ</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12h</span></p>
-                      <p>Gửi bạn 1 tin nhắn</p>
-                    </div>
-                  </div>
-                </li>
-                <li class="n-title">
-                  <p class="m-b-0">GẦN ĐÂY</p>
-                </li>
-                <li class="notification">
-                  <div class="media">
-                    <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                      <p><strong>Nguyễn Ngô Thanh Diệu</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>1 ngày</span></p>
-                      <p>Gửi bạn 1 tin nhắn</p>
-                    </div>
-                  </div>
-                </li>
-                <li class="notification">
-                  <div class="media">
-                    <img class="img-radius" src="assets/images/user/avatar-3.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                      <p><strong>Phạm bá hậu</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>2 ngày</span></p>
-                      <p>Gửi bạn 1 tin nhắn</p>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <div class="noti-footer">
-                <a href="#!">Hiện tất cả</a>
-              </div>
-            </div>
-          </div>
+            <a href="gui-thong-bao"><i class="icon feather icon-bell"></i></a>
         </li>
         <li><a href="tin-nhan"><i class="icon feather icon-mail"></i></a></li>
         <li>

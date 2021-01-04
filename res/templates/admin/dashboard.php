@@ -199,14 +199,14 @@ for ($i=1; $i < 10; $i++) {
                           <div class="col-sm-6 text-center m-b-20">
                               <h6 class="pb-4 d-block">Không tích cực</h6>
                               <div class="sadball"></div>
-                              <h3 class="font-weight-light mt-2">8%</h3>
-                              <span class="b-block pt-2">24 Học sinh</span>
+                              <h3 class="font-weight-light mt-2">7%</h3>
+                              <span class="b-block pt-2">70 Học sinh</span>
                           </div>
                           <div class="col-sm-6 text-center m-b-20">
                               <h6 class="pb-4 d-block">Tích cực</h6>
                               <div class="happyball"></div>
-                              <h3 class="font-weight-light mt-2">92%</h3>
-                              <span class="b-block pt-2">276 Học sinh</span>
+                              <h3 class="font-weight-light mt-2">93%</h3>
+                              <span class="b-block pt-2">931 Học sinh</span>
                           </div>
                           <div class="col-sm-12">
                               <a href="ti-le-tuong-tac"><button class="btn btn-primary shadow-2 text-uppercase btn-block mt-3 mr-0" type="button">Xem chi tiết</button></a>
@@ -439,7 +439,7 @@ for ($i=1; $i < 10; $i++) {
                     type: 'value',
                     scale: true,
                     name: 'End',
-                    max: 30,
+                    max: 200,
                     min: 0,
                     boundaryGap: [0.2, 0.2]
                 }],
@@ -455,7 +455,7 @@ for ($i=1; $i < 10; $i++) {
                         var res = [];
                         var len = 10;
                         while (len--) {
-                            res.push(getRndInteger(1,3));
+                            res.push(getRndInteger(58,63));
                         }
                         return res;
                     })()
@@ -481,7 +481,7 @@ for ($i=1; $i < 10; $i++) {
                 var data0 = optiondyn.series[0].data;
                 var data1 = optiondyn.series[1].data;
                 data0.shift();
-                data0.push(Math.round(getRndInteger(1,3)));
+                data0.push(Math.round(getRndInteger(58,63)));
                 data1.shift();
                 data1.push((Math.random() * 10 + 5).toFixed(1) - 0);
 
@@ -688,8 +688,8 @@ for ($i=1; $i < 10; $i++) {
                 },
                 data_range: [30, 70, 100],
                 isLoading: true,
-                nowRange: 8,
-                targetRange: 8
+                nowRange: 7,
+                targetRange: 7
             });
             $('.happyball').createWaterBall({
                 cvs_config: {
@@ -702,12 +702,12 @@ for ($i=1; $i < 10; $i++) {
                 },
                 data_range: [30, 70, 100],
                 isLoading: true,
-                nowRange: 92,
-                targetRange: 92
+                nowRange: 93,
+                targetRange: 93
             });
             setTimeout(function() {
-                $('.sadball').createWaterBall('updateRange', 8);
-                $('.happyball').createWaterBall('updateRange', 92);
+                $('.sadball').createWaterBall('updateRange', 7);
+                $('.happyball').createWaterBall('updateRange', 93);
             }, 1000);
         });
 </script>
