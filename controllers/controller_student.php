@@ -27,6 +27,13 @@ class Controller_Student
 		$this->info['doing_exam'] = $user_info->doing_exam;
 		$this->info['time_remaining'] = $user_info->time_remaining;
 	}
+	public function get_list_user_search()
+	{
+		$model = new Model_Student();
+		$string = isset($_POST['string']) ? $_POST['string'] : 'a';
+		$data = $model->get_list_user_search($string);
+		echo json_encode($data);
+	}
 	public function get_recent_messenger_user() // Lấy danh sách user nhắn tin gần đây
 	{
 		$model = new Model_Student();

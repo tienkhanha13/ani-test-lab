@@ -586,6 +586,7 @@ for ($i=1; $i < 10; $i++) {
         "marginTop": 10,
         "marginRight": 0,
         "dataProvider": [{
+<<<<<<< HEAD
             "year": "7/2019",
             "value": 894
           }, {
@@ -612,6 +613,34 @@ for ($i=1; $i < 10; $i++) {
         }, {
             "year": "03/2020",
             "value": 4321
+=======
+            "year": "<?=date_format(date_create($analysis_login_month[8]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[8]->count?>
+          }, {
+            "year": "<?=date_format(date_create($analysis_login_month[7]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[7]->count?>
+          }, {
+            "year": "<?=date_format(date_create($analysis_login_month[6]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[6]->count?>
+          }, {
+            "year": "<?=date_format(date_create($analysis_login_month[5]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[5]->count?>
+          }, {
+            "year": "<?=date_format(date_create($analysis_login_month[4]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[4]->count?>
+          }, {
+            "year": "<?=date_format(date_create($analysis_login_month[3]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[3]->count?>
+          }, {
+            "year": "<?=date_format(date_create($analysis_login_month[2]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[2]->count?>
+        }, {
+            "year": "<?=date_format(date_create($analysis_login_month[1]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[1]->count?>
+        }, {
+            "year": "<?=date_format(date_create($analysis_login_month[0]->time),"m/Y")?>",
+            "value": <?=$analysis_login_month[0]->count?>
+>>>>>>> 8da0f00b580c289e6d42e662aa60746d12c0c8a7
         }],
         "valueAxes": [{
             "axisAlpha": 0,

@@ -26,6 +26,13 @@ class Controller_Admin
         $this->info['name'] = $user_info->name;
         $this->info['avatar'] = $user_info->avatar;
     }
+    public function get_list_user_search()
+    {
+      $model = new Model_Admin();
+      $string = isset($_POST['string']) ? $_POST['string'] : 'a';
+      $data = $model->get_list_user_search($string);
+      echo json_encode($data);
+    }
     public function get_recent_messenger_user() // Lấy danh sách user nhắn tin gần đây
     {
       $model = new Model_Admin();
@@ -124,6 +131,11 @@ class Controller_Admin
     {
         $model = new Model_Admin();
         return $model->get_analysis_login_day();
+    }
+    public function get_analysis_login_month()
+    {
+        $model = new Model_Admin();
+        return $model->get_analysis_login_month();
     }
     public function get_profiles()
     {
@@ -1837,7 +1849,7 @@ public function show_dashboard()
     $view = new View_Admin();
     $model = new Model_Admin();
     $view->show_head_left($this->info);
-    $view->show_dashboard($this->get_dashboard_info(),$model->get_quest_incorrect_rank(),$this->get_analysis_login_day(),$this->get_score_analysis());
+    $view->show_dashboard($this->get_dashboard_info(),$model->get_quest_incorrect_rank(),$this->get_analysis_login_month(),$this->get_score_analysis());
     $view->show_foot();
 }
 public function show_teachers_panel()
@@ -1965,8 +1977,11 @@ public function show_subjects_panel()
 public function show_notifications_panel()
 {
     $view = new View_Admin();
+    $model = new Model_Admin();
+    $list_teacher = $model->get_list_teachers();
+    $list_class = $model->get_list_classes();
     $view->show_head_left($this->info);
-    $view->show_notifications_panel();
+    $view->show_notifications_panel($list_teacher,$list_class);
     $view->show_foot();
 }
 public function show_about()

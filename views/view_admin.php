@@ -16,7 +16,7 @@ class View_Admin
     {
         include 'res/templates/admin/admins_panel.html';
     }
-    public function show_dashboard($dashboard,$quest_incorrect=NULL,$analysis_login_day=NULL,$score_analysis)
+    public function show_dashboard($dashboard,$quest_incorrect=NULL,$analysis_login_month=NULL,$score_analysis)
     {
         include 'res/templates/admin/dashboard.php';
     }
@@ -80,9 +80,9 @@ class View_Admin
     {
         include 'res/templates/admin/test_score.php';
     }
-    public function show_notifications_panel()
+    public function show_notifications_panel($list_teacher,$list_class)
     {
-        include 'res/templates/admin/notifications_panel.html';
+        include 'res/templates/admin/notifications_panel.php';
     }
     public function show_about()
     {
